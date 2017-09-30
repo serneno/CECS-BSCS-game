@@ -1,19 +1,46 @@
-import java.awt.FlowLayout;
+import java.awt.*;
 import javax.swing.*;
 
 public class GameView implements Runnable{
     public void run() {
-        // Create the window
+        // Create the main window
         JFrame f = new JFrame("College Hustlers");
+        f.setExtendedState(JFrame.MAXIMIZED_BOTH);
         // Sets the behavior for when the window is closed
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        // Add a layout manager so that the button is not placed on top of the label
+        //Frame layout
         f.setLayout(new FlowLayout());
-        // Add playing button
-        f.add(new JButton("Draw Card"));
-        f.add(new JButton("Move"));
-        f.add(new JButton("Play Card"));
-        f.add(new JTextField("Rooms Available:", 20));
+
+        //Scrollable Map Display
+        JPanel map = new JPanel();
+        ImageIcon csulb_map = new ImageIcon("CSULBMap5_1200x1437.png");
+        JLabel map_img = new JLabel(csulb_map);
+        //JPanel scroll = new JPanel();
+        JScrollPane map_scroll = new JScrollPane(map_img);
+        map.setLayout(new FlowLayout());
+        map.add(map_img);
+        map.add(map_scroll);
+
+        //Play Area
+        JPanel main = new JPanel();
+        JPanel play = new JPanel();
+        play.setLayout(new FlowLayout());
+        play.add(new JButton("Draw Card"));
+        play.add(new JButton("Move"));
+        play.add(new JButton("Play Card"));
+        play.add(new JTextArea("Rooms Available:"));
+        
+        JPanel info = new JPanel();
+        info.setLayout(new FlowLayout()); 
+        info.add(new JTextArea("stats"));
+        info.add(new JTextArea("Task taken"));
+
+        main.add(play);
+        main.add(info);
+
+        // Add JPanels into JFrame
+        f.add(map);
+        f.add(main);
         // Arrange the components inside the window
         f.pack();
         // By default, the window is not visible. Make it visible.
