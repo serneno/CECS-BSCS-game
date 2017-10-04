@@ -5,18 +5,30 @@ public class GameView {
     // Adds all the components into the main window
     public static void addComponents(Container frame) {
         //Frame layout
-        frame.setLayout(new BorderLayout());
-        //Scrollable Map Display
-        ImageIcon csulb_map = new ImageIcon("CSULBMap5_1200x1437.png");
-        JLabel map_img = new JLabel(csulb_map);
-        JScrollPane map_scroll = new JScrollPane(map_img);
-        map_scroll.setPreferredSize(new Dimension(map_scroll.getWidth(), 500));
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.NORTHWEST;
+
+        // Map View Panel
+        MapView mv = new MapView();
+        JScrollPane map_scroll = mv.display();
+        // GridBagLayout constraints for Map Panel
+        c.gridx = c.gridy = 0;
+        c.gridwidth = c.gridheight = 1;
+        c.weightx = c.weighty = 80;
+        // Add Map Panel into Main JFrame
+        frame.add(map_scroll, c);
+
         // Game Controls Panel
         ControlView gc = new ControlView();
         JPanel game_control = gc.display();
-        // Add JPanels into JFrame
-        frame.add(map_scroll, BorderLayout.NORTH);
-        frame.add(game_control, BorderLayout.SOUTH);
+        // GridBagLayout constraints for Game Control Panel
+        c.gridy = 1;
+        c.weightx = c.weighty = 20;
+        //c.insets = new Insets(2, 2, 2, 2);
+        // Add Game Control Panel into Main JFrame
+        frame.add(game_control, c);
     }
  
     // Creates the GUI for the game
