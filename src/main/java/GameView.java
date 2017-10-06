@@ -1,3 +1,5 @@
+package classes;
+
 import java.awt.*;
 import javax.swing.*;
 //Main class containg everything in the game view
