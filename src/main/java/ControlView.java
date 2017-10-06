@@ -1,4 +1,4 @@
-package classes;
+package bin.main.classes;
 
 import java.util.*;
 import java.awt.*;
