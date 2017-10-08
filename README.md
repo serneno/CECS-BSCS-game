@@ -8,13 +8,44 @@ Team Members: Haydn Pang, Arjun Chawla
 TO-DO List (Iteration 1)
 - Add button functionalities
     - Move Player
-        - Moves player on map from one location to another by removing from current position then recreating in new position
-- Room adjacency list
+        - Prerequisite: a room is selected from the room list
+        - Player is removed from current position
+        - Player is added in new position
+- Room list
     - must update after each move
-- Game AI
-    - Randomly picks a room to move
-- 
+        - Room adjacency list
+    - only one is selectable each time
+- Rooms
+    - 10 in "ECS"
+        - Computer Lab
+        - ECS 302
+        - EAT Club
+        - CECS Conference Room
+        - North Hall
+        - South Hall
+        - Room of Retirement
+        - Elevators
+        - ECS 308
+        - Lactation Lounge
+    - 11 outside
+        - George Allen Field
+        - Japanese Garden
+        - Pyramid
+        - Student Parking
+        - REC Center
+        - Forbidden Parking
+        - West Walkway
+        - East Walkway
+        - Library
+        - LA 5
+        - Bratwurst Hall
 - Display players onto Map
+    - Uses relative position of each room in map
+    - If multiple players in a room, list them vertically (could be changed)
+- Game Controller
+    - Sequences through player -> AI 1 -> AI 2
+- Game AI
+    - Randomly picks a room to move from room list
 
 
 
