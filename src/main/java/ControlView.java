@@ -9,26 +9,35 @@ public class ControlView {
     //Future iteration: parameter for an array with the rooms available
     public JPanel display() {
         JPanel control_view = new JPanel();
+        control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         control_view.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        //c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.NORTHWEST;
 
         String[] rooms_available = {"Computer Lab", "Eat Club", "CECS Conference Room", "North Hall", "South Hall"};
         
+        //Packs all the action buttons in a JPanel using a GridLayout
+        JPanel act_buttons = new JPanel(new GridLayout(3, 1, 0, 5));
+        //Draw Card Button
         JButton draw_button = new JButton("Draw Card");
         c.gridx = c.gridy = 0;
-        c.insets = new Insets(0, 0, 10, 0);
-        c.weightx = 0;
-        control_view.add(draw_button, c);
+        c.insets = new Insets(0, 10, 10, 0);
+        c.weightx = 0.25;
+        //control_view.add(draw_button, c);
         
+        //Move Button
         JButton move_button = new JButton("Move");
-        c.gridy = 1;
-        control_view.add(move_button, c);
+        //c.gridy = 1;
+        //control_view.add(move_button, c);
 
+        //Play Card Button
         JButton play_button = new JButton("Play Card");
-        c.gridy = 2;
-        control_view.add(play_button, c);
+        //c.gridy = 2;
+        //control_view.add(play_button, c);
+        act_buttons.add(draw_button);
+        act_buttons.add(move_button);
+        act_buttons.add(play_button);
+        control_view.add(act_buttons, c);
 
         //Rooms available scrollable list
         JList<String> room_list = new JList<>(rooms_available);
@@ -36,27 +45,24 @@ public class ControlView {
         room_list.setLayoutOrientation(JList.VERTICAL);
         room_list.setVisibleRowCount(8);
         JScrollPane room_list_scroller = new JScrollPane(room_list);
-        room_list_scroller.setPreferredSize(new Dimension(250, 80));
+        room_list_scroller.setMinimumSize(new Dimension(200, 80));
         c.gridy = 3;
-        c.insets = new Insets(0, 0, 0, 0);
+        //c.insets = new Insets(0, 10, 0, 0);
         control_view.add(room_list_scroller, c);
 
+        
         //Display current card
         JPanel current_card = new JPanel();
         JTextArea card_placeholder = new JTextArea("This will contain a card.");
         current_card.setBorder(BorderFactory.createLineBorder(Color.black));
         current_card.add(card_placeholder);
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 1;
         c.gridy = 0;
-        c.gridheight = 3;
+        c.insets = new Insets(0, 10, 0, 10);
+        c.weightx = 5;
         control_view.add(current_card, c);
-
-        JPanel placeholder = new JPanel();
-        c.gridx = 1;
-        c.gridy = 4;
-        c.gridheight = 1;
-        control_view.add(placeholder, c);
+        
         //Displays current statistics of the players
         
         JTextArea current_stats = new JTextArea(
@@ -70,20 +76,23 @@ public class ControlView {
         );
         current_stats.setEditable(false);
         current_stats.setBorder(BorderFactory.createLineBorder(Color.black));
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
         c.gridy = 0;
-        c.gridheight = 2;
-        c.ipadx = c.ipady = 20;
+        //c.gridheight = 2;
+        //c.ipadx = c.ipady = 20;
         c.insets = new Insets(10, 10, 10, 10);
-        c.weightx = 0.4;
+        c.weightx = 0.5;
         control_view.add(current_stats, c);
 
         JTextArea game_log = new JTextArea("Human player is Amanda");
         game_log.setBorder(BorderFactory.createLineBorder(Color.black)); 
         game_log.setEditable(false);
-        c.gridheight = 1;
-        c.gridy = 2;
+        //c.gridheight = 1;
+        c.gridy = 1;
+        c.weightx = 0;
         control_view.add(game_log, c);
+        
         return control_view;
     }
 }
