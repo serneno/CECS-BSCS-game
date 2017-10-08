@@ -8,6 +8,7 @@ Team Members: Haydn Pang, Arjun Chawla
 TO-DO List (Iteration 1)
 - Add button functionalities
     - Move Player
+<<<<<<< HEAD
         - Prerequisite: a room is selected from the room list
         - Player is removed from current position
         - Player is added in new position
@@ -49,3 +50,12 @@ TO-DO List (Iteration 1)
 
 
 
+=======
+        - Player is removed from current position 
+        - Player is added in new position
+- Room adjacency list
+    - must update after each move
+- Game AI
+    - Randomly picks a room to move
+- Display players onto Map
+>>>>>>> 71a5d9e5abb0660825efdeeaba100a1ac91d42fb
