@@ -7,6 +7,7 @@ public class GameView {
     // Adds all the components into the main window
     public static void addComponents(Container frame) {
         //Frame layout
+
         frame.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
@@ -17,8 +18,7 @@ public class GameView {
         JScrollPane map_scroll = mv.display();
         // GridBagLayout constraints for Map Panel
         c.gridx = c.gridy = 0;
-        c.gridwidth = c.gridheight = 1;
-        c.weightx = c.weighty = 80;
+        c.weightx = c.weighty = 70;
         // Add Map Panel into Main JFrame
         frame.add(map_scroll, c);
 
@@ -28,7 +28,6 @@ public class GameView {
         // GridBagLayout constraints for Game Control Panel
         c.gridy = 1;
         c.weightx = c.weighty = 20;
-        //c.insets = new Insets(2, 2, 2, 2);
         // Add Game Control Panel into Main JFrame
         frame.add(game_control, c);
     }
