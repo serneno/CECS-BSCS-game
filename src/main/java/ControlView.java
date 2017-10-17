@@ -6,6 +6,10 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class ControlView {
+    String[] rooms_available;
+    DefaultListModel room_model = new DefaultListModel();
+    JList room_list;
+    RoomListModel rlm = new RoomListModel();
     //Returns the game control panel as JPanel
     //Future iteration: parameter for an array with the rooms available
     public JPanel display() {
@@ -15,7 +19,10 @@ public class ControlView {
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.NORTHWEST;
 
-        String[] rooms_available = {"Computer Lab", "Eat Club", "CECS Conference Room", "North Hall", "South Hall"};
+        rlm.setCurrentRoom("South Hall");
+        Room curr_room = rlm.getCurrentRoom();
+        System.out.println(curr_room.room_name + " "); //currently gives last room added in map
+        rooms_available = curr_room.getRoomAdj(); //works
         
         //Packs all the action buttons in a JPanel using a GridLayout
         JPanel act_buttons = new JPanel(new GridLayout(3, 1, 0, 5));
@@ -34,6 +41,7 @@ public class ControlView {
         move_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //Moves the player to the room selected from the room list
+                updateRoomList();
             }
         });
         //c.gridy = 1;
@@ -50,14 +58,17 @@ public class ControlView {
         control_view.add(act_buttons, c);
 
         //Rooms available scrollable list
-        JList<String> room_list = new JList<>(rooms_available);
+        for(int i = 0; i < rooms_available.length; i++) {
+            room_model.addElement(rooms_available[i]);
+        }
+        room_list = new JList(room_model);
         room_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         room_list.setLayoutOrientation(JList.VERTICAL);
         room_list.setVisibleRowCount(8);
         JScrollPane room_list_scroller = new JScrollPane(room_list);
-        room_list_scroller.setMinimumSize(new Dimension(200, 80));
+        room_list_scroller.setMinimumSize(new Dimension(250, 80));
         c.gridy = 3;
-        //c.insets = new Insets(0, 10, 0, 0);
+        c.ipadx = c.ipady = 10;
         control_view.add(room_list_scroller, c);
 
         
@@ -82,7 +93,7 @@ public class ControlView {
             "Habib\t6\t6\t6\t0\n\n" +
             "Cards in deck:\t50" +
             "\tDiscards out of play: \t0\n" +
-            "You are Amanda and you are in the South Hall" 
+            "You are Amanda and you are in the " + curr_room.room_name 
         );
         current_stats.setEditable(false);
         current_stats.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -104,5 +115,17 @@ public class ControlView {
         control_view.add(game_log, c);
         
         return control_view;
+    }
+
+    //Updates the room list after every move
+    public void updateRoomList() {
+        String room_moved = (String)room_list.getSelectedValue(); 
+        rlm.setCurrentRoom(room_moved);
+        Room curr_room = rlm.getCurrentRoom();
+        rooms_available = curr_room.getRoomAdj();
+        room_model.removeAllElements();
+        for(int i = 0; i < rooms_available.length; i++) {
+            room_model.addElement(rooms_available[i]);
+        }
     }
 }
