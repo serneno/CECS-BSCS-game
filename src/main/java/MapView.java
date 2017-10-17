@@ -18,7 +18,7 @@ public class MapView {
         p1.setForeground(Color.red);
         p2.setForeground(Color.red);
         p3.setForeground(Color.red);
-        p1.setBounds(800, 970, size.width, size.height);
+        p1.setBounds((int)(game_map.getIconWidth() * (0.66)), (int)(game_map.getIconHeight() * (0.67)), size.width, size.height);
         p2.setBounds(p1.getX(), p1.getY() + 20, size.width, size.height);
         p3.setBounds(p1.getX(), p2.getY() + 20, size.width, size.height);
         map_img.add(p1);
