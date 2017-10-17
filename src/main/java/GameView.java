@@ -18,7 +18,8 @@ public class GameView {
         JScrollPane map_scroll = mv.display();
         // GridBagLayout constraints for Map Panel
         c.gridx = c.gridy = 0;
-        c.weightx = c.weighty = 70;
+        c.weightx = 1;
+        c.weighty = 0.8;
         // Add Map Panel into Main JFrame
         frame.add(map_scroll, c);
 
@@ -27,7 +28,7 @@ public class GameView {
         JPanel game_control = gc.display();
         // GridBagLayout constraints for Game Control Panel
         c.gridy = 1;
-        c.weightx = c.weighty = 20;
+        c.weighty = 0.2;
         // Add Game Control Panel into Main JFrame
         frame.add(game_control, c);
     }

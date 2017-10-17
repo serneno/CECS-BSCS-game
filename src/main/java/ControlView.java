@@ -24,34 +24,29 @@ public class ControlView {
         System.out.println(curr_room.room_name + " "); //currently gives last room added in map
         rooms_available = curr_room.getRoomAdj(); //works
         
-        //Packs all the action buttons in a JPanel using a GridLayout
+        //Packs all the action buttons in a JPanel using a GridLayout as well as its respective GridBagConstraints
         JPanel act_buttons = new JPanel(new GridLayout(3, 1, 0, 5));
+        c.insets = new Insets(10, 10, 10, 10);
+        c.ipadx = c.ipady = 10;
+
         //Draw Card Button (currently disabled)
         JButton draw_button = new JButton("Draw Card");
-        /*
-        c.gridx = c.gridy = 0;
-        c.insets = new Insets(0, 10, 10, 0);
-        c.weightx = 0.25;
-        */
         draw_button.setEnabled(false);
-        //control_view.add(draw_button, c);
         
         //Move Button
         JButton move_button = new JButton("Move");
         move_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //Moves the player to the room selected from the room list
+                //Updates the room list after a move
                 updateRoomList();
+                //Moves the player on the game board visually
             }
         });
-        //c.gridy = 1;
-        //control_view.add(move_button, c);
 
         //Play Card Button (currently disabled)
         JButton play_button = new JButton("Play Card");
         play_button.setEnabled(false);
-        //c.gridy = 2;
-        //control_view.add(play_button, c);
+
         act_buttons.add(draw_button);
         act_buttons.add(move_button);
         act_buttons.add(play_button);
@@ -67,11 +62,9 @@ public class ControlView {
         room_list.setVisibleRowCount(8);
         JScrollPane room_list_scroller = new JScrollPane(room_list);
         room_list_scroller.setMinimumSize(new Dimension(250, 80));
-        c.gridy = 3;
-        c.ipadx = c.ipady = 10;
+        c.gridy = 1;
         control_view.add(room_list_scroller, c);
-
-        
+   
         //Display current card
         JPanel current_card = new JPanel();
         JTextArea card_placeholder = new JTextArea("This will contain a card.");
@@ -80,12 +73,13 @@ public class ControlView {
         c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 1;
         c.gridy = 0;
-        c.insets = new Insets(0, 10, 0, 10);
-        c.weightx = 5;
+        c.insets = new Insets(10, 20, 10, 20);
+        c.weightx = 0.5;
         control_view.add(current_card, c);
         
-        //Displays current statistics of the players
-        
+        //For future iteration
+        /*
+        //Displays current statistics of the players (currently doesn't work as not needed for first iteration)
         JTextArea current_stats = new JTextArea(
             "\tLearning\tCraft\tIntegrity\tQuality Points\n" + 
             "Matt\t6\t6\t6\t0\n" + 
@@ -100,7 +94,6 @@ public class ControlView {
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 2;
         c.gridy = 0;
-        //c.gridheight = 2;
         //c.ipadx = c.ipady = 20;
         c.insets = new Insets(10, 10, 10, 10);
         c.weightx = 0.5;
@@ -113,7 +106,7 @@ public class ControlView {
         c.gridy = 1;
         c.weightx = 0;
         control_view.add(game_log, c);
-        
+    */    
         return control_view;
     }
 
