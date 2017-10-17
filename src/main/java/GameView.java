@@ -7,7 +7,6 @@ public class GameView {
     // Adds all the components into the main window
     public static void addComponents(Container frame) {
         //Frame layout
-
         frame.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
