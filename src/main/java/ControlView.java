@@ -2,6 +2,7 @@ package bin.main.classes;
 
 import java.util.*;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 public class ControlView {
@@ -18,20 +19,29 @@ public class ControlView {
         
         //Packs all the action buttons in a JPanel using a GridLayout
         JPanel act_buttons = new JPanel(new GridLayout(3, 1, 0, 5));
-        //Draw Card Button
+        //Draw Card Button (currently disabled)
         JButton draw_button = new JButton("Draw Card");
+        /*
         c.gridx = c.gridy = 0;
         c.insets = new Insets(0, 10, 10, 0);
         c.weightx = 0.25;
+        */
+        draw_button.setEnabled(false);
         //control_view.add(draw_button, c);
         
         //Move Button
         JButton move_button = new JButton("Move");
+        move_button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //Moves the player to the room selected from the room list
+            }
+        });
         //c.gridy = 1;
         //control_view.add(move_button, c);
 
-        //Play Card Button
+        //Play Card Button (currently disabled)
         JButton play_button = new JButton("Play Card");
+        play_button.setEnabled(false);
         //c.gridy = 2;
         //control_view.add(play_button, c);
         act_buttons.add(draw_button);
