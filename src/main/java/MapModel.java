@@ -13,12 +13,6 @@ public class MapModel {
     }
 
     public void generateMap() {
-        
-        ImageIcon game_map = new ImageIcon("./resources/Game_Map.png");
-        JLabel map_img = new JLabel(game_map);
-        map_img.setPreferredSize(new Dimension(1200, 1437));
-        //map_img.setMinimumSize(new Dimension(1200, 1437));
-        //map_img.setMaximumSize(new Dimension(1200, 1437));
         //Sets up all the rooms
         JPanel GeorgeAllenField = new JPanel();
         GeorgeAllenField.setLayout(new BoxLayout(GeorgeAllenField, BoxLayout.PAGE_AXIS));
