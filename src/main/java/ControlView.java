@@ -24,6 +24,7 @@ public class ControlView {
         control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         control_view.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+        //c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.NORTHWEST;
 
         rlm.setCurrentRoom("ECS 308");
@@ -35,6 +36,7 @@ public class ControlView {
         JPanel act_buttons = new JPanel(new GridLayout(3, 1, 0, 5));
         c.insets = new Insets(10, 10, 10, 10);
         c.ipadx = c.ipady = 10;
+        c.weightx = 1;
 
         //Draw Card Button (currently disabled)
         JButton draw_button = new JButton("Draw Card");
@@ -95,6 +97,7 @@ public class ControlView {
         c.gridy = 1;
         control_view.add(room_list_scroller, c);
    
+        /*
         //Display current card
         JPanel current_card = new JPanel();
         JTextArea card_placeholder = new JTextArea("This will contain a card.");
@@ -106,6 +109,7 @@ public class ControlView {
         c.insets = new Insets(10, 20, 10, 20);
         c.weightx = 0.5;
         control_view.add(current_card, c);
+        */
         
         //For future iteration
         /*
@@ -137,6 +141,7 @@ public class ControlView {
         c.weightx = 0;
         control_view.add(game_log, c);
     */    
+        //control_view.setMinimumSize(new Dimension(Short.MAX_VALUE, 10));
         return control_view;
     }
 
