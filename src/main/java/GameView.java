@@ -4,32 +4,40 @@ import java.awt.*;
 import javax.swing.*;
 //Main class containg everything in the game view
 public class GameView {
+    public static MapModel map = new MapModel();
     // Adds all the components into the main window
     public static void addComponents(Container frame) {
         //Frame layout
-        frame.setLayout(new GridBagLayout());
+        frame.setLayout(new BorderLayout());
+        JPanel gameview = new JPanel();
+        gameview.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.NORTHWEST;
-
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        
         // Map View Panel
-        MapView mv = new MapView();
+        MapView mv = new MapView(map);
         JScrollPane map_scroll = mv.display();
+        
         // GridBagLayout constraints for Map Panel
-        c.gridx = c.gridy = 0;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridx = 0;
+        c.gridy = 0;
         c.weightx = 1;
         c.weighty = 0.8;
         // Add Map Panel into Main JFrame
-        frame.add(map_scroll, c);
+        gameview.add(map_scroll, c);
 
         // Game Controls Panel
-        ControlView gc = new ControlView();
+        ControlView gc = new ControlView(map);
         JPanel game_control = gc.display();
         // GridBagLayout constraints for Game Control Panel
+        c.fill = GridBagConstraints.BOTH;
         c.gridy = 1;
         c.weighty = 0.2;
         // Add Game Control Panel into Main JFrame
-        frame.add(game_control, c);
+        gameview.add(game_control, c);
+        frame.add(gameview);
     }
  
     // Creates the GUI for the game
@@ -38,7 +46,7 @@ public class GameView {
         JFrame frame = new JFrame("College Hustlers");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // Sets the frame to fullsreen
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         // Adds all the components into the main JFrame
         addComponents(frame.getContentPane());
         // Arrange the components inside the window

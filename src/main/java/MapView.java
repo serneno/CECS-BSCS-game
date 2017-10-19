@@ -4,30 +4,41 @@ import java.awt.*;
 import javax.swing.*;
 // Scrollable Map Display
 public class MapView {
+    MapModel map;
+    public MapView(MapModel map_model) {
+        map = map_model;
+    }
     public JScrollPane display() {
+
         ImageIcon game_map = new ImageIcon("./resources/Game_Map.png");
         JLabel map_img = new JLabel(game_map);
-        map_img.setLayout(null);
+        map_img.setPreferredSize(new Dimension(1200, 1437));
+        //Adds all the rooms visually on the map to store players if they are in a room
+        for(String room_name : map.getRoomMap().keySet()) {
+            map_img.add(map.getRoomMap().get(room_name));
+        }
 
         //Adds Players onto Game Map (still testing)
-        JLabel p1 = new JLabel("Amanda");
-        JLabel p2 = new JLabel("Matt");
-        JLabel p3 = new JLabel("Karen");
-        //Insets insets = map_img.getInsets();
-        Dimension size = p1.getPreferredSize();
-        p1.setForeground(Color.red);
-        p2.setForeground(Color.red);
-        p3.setForeground(Color.red);
-        p1.setBounds((int)(game_map.getIconWidth() * (0.66)), (int)(game_map.getIconHeight() * (0.67)), size.width, size.height);
-        p2.setBounds(p1.getX(), p1.getY() + 20, size.width, size.height);
-        p3.setBounds(p1.getX(), p2.getY() + 20, size.width, size.height);
-        map_img.add(p1);
-        map_img.add(p2);
-        map_img.add(p3);
+        /*
+        PlayerModel pm1 = new PlayerModel("Amanda", true);
+        JLabel p1 = pm1.getPlayer();
+        PlayerModel pm2 = new PlayerModel("Matt", false);
+        JLabel p2 = pm2.getPlayer();
+        PlayerModel pm3 = new PlayerModel("Karen", false);
+        JLabel p3 = pm3.getPlayer();*/
+        /*
+        ECS308.add(p1);
+        ECS308.add(p2);
+        ECS308.add(p3);
 
+        GeorgeAllenField.add(p1);
+        GeorgeAllenField.add(p2);
+        GeorgeAllenField.add(p3);
+        */
         JScrollPane map_scroll = new JScrollPane(map_img);
-        map_scroll.setPreferredSize(new Dimension(map_scroll.getWidth(), 500));
-
+        //map_scroll.setPreferredSize(new Dimension(1200, 1437)); //dimension of the game map
+        //map_scroll.setMaximumSize(new Dimension(1200, 1437));
+        //map_scroll.setMinimumSize(new Dimension(1200, 1437));
         return map_scroll;
     }
 }

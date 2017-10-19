@@ -8,8 +8,14 @@ import javax.swing.*;
 public class ControlView {
     String[] rooms_available;
     DefaultListModel room_model = new DefaultListModel();
+    MapModel map;
     JList room_list;
+    JPanel curr_room_panel;
     RoomListModel rlm = new RoomListModel();
+
+    public ControlView(MapModel map_model) {
+        map = map_model;
+    }
     //Returns the game control panel as JPanel
     //Future iteration: parameter for an array with the rooms available
     public JPanel display() {
@@ -19,9 +25,9 @@ public class ControlView {
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.NORTHWEST;
 
-        rlm.setCurrentRoom("South Hall");
+        rlm.setCurrentRoom("ECS 308");
         Room curr_room = rlm.getCurrentRoom();
-        System.out.println(curr_room.room_name + " "); //currently gives last room added in map
+        //System.out.println(curr_room.room_name + " "); 
         rooms_available = curr_room.getRoomAdj(); //works
         
         //Packs all the action buttons in a JPanel using a GridLayout as well as its respective GridBagConstraints
@@ -33,12 +39,24 @@ public class ControlView {
         JButton draw_button = new JButton("Draw Card");
         draw_button.setEnabled(false);
         
+        //Adds players and puts them  into the default room (Currently ECS 308)
+        PlayerModel pm1 = new PlayerModel("Amanda", true);
+        JLabel p1 = pm1.getPlayer();
+        PlayerModel pm2 = new PlayerModel("Matt", false);
+        JLabel p2 = pm2.getPlayer();
+        PlayerModel pm3 = new PlayerModel("Karen", false);
+        JLabel p3 = pm3.getPlayer();
+        curr_room_panel = map.getRoomMap().get("ECS 308");
+        curr_room_panel.add(p1);
+        curr_room_panel.add(p2);
+        curr_room_panel.add(p3);
+
         //Move Button
         JButton move_button = new JButton("Move");
         move_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //Updates the room list after a move
-                updateRoomList();
+                movePlayer(updateRoomList(), p1);
                 //Moves the player on the game board visually
             }
         });
@@ -61,7 +79,8 @@ public class ControlView {
         room_list.setLayoutOrientation(JList.VERTICAL);
         room_list.setVisibleRowCount(8);
         JScrollPane room_list_scroller = new JScrollPane(room_list);
-        room_list_scroller.setMinimumSize(new Dimension(250, 80));
+        room_list_scroller.setPreferredSize(new Dimension(100, 100));
+        room_list_scroller.setMinimumSize(new Dimension(100, 80));
         c.gridy = 1;
         control_view.add(room_list_scroller, c);
    
@@ -111,7 +130,7 @@ public class ControlView {
     }
 
     //Updates the room list after every move
-    public void updateRoomList() {
+    public String updateRoomList() {
         String room_moved = (String)room_list.getSelectedValue(); 
         rlm.setCurrentRoom(room_moved);
         Room curr_room = rlm.getCurrentRoom();
@@ -120,5 +139,16 @@ public class ControlView {
         for(int i = 0; i < rooms_available.length; i++) {
             room_model.addElement(rooms_available[i]);
         }
+        return room_moved;
+    }
+
+    public void movePlayer(String room, JLabel p1) {
+        System.out.println(room);
+        curr_room_panel.remove(p1); //removes human player, currently set to p1
+        curr_room_panel = map.getRoomMap().get(room);
+        curr_room_panel.add(p1);
+        
+        curr_room_panel.repaint();
+        curr_room_panel.revalidate();
     }
 }

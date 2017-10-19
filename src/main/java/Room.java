@@ -18,5 +18,9 @@ public class Room {
     public String[] getRoomAdj() {
         return room_adjacency;
     }
+
+    public String getName() {
+        return room_name;
+    }
     
 }
