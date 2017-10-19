@@ -22,7 +22,7 @@ public class MapModel {
         //Sets up all the rooms
         JPanel GeorgeAllenField = new JPanel();
         GeorgeAllenField.setLayout(new BoxLayout(GeorgeAllenField, BoxLayout.PAGE_AXIS));
-        //GeorgeAllenField.setOpaque(false);
+        GeorgeAllenField.setOpaque(false);
         GeorgeAllenField.setBounds(20, 70, 200, 150);
         room_map.put("George Allen Field", GeorgeAllenField);
         //map_img.add(GeorgeAllenField);
@@ -105,7 +105,7 @@ public class MapModel {
         //map_img.add(ECS302);
 
         JPanel NorthHall = new JPanel();
-        NorthHall.setLayout(new FlowLayout(FlowLayout.LEADING));
+        NorthHall.setLayout(new BoxLayout(NorthHall, BoxLayout.PAGE_AXIS));
         NorthHall.setOpaque(false);
         NorthHall.setBounds(130, 820, 400, 120);
         room_map.put("North Hall", NorthHall);
@@ -119,7 +119,7 @@ public class MapModel {
         //map_img.add(RoomOfRetirement);
 
         JPanel SouthHall = new JPanel();
-        SouthHall.setLayout(new FlowLayout(FlowLayout.LEADING));
+        SouthHall.setLayout(new BoxLayout(SouthHall, BoxLayout.PAGE_AXIS));
         SouthHall.setOpaque(false);
         SouthHall.setBounds(590, 820, 400, 120);
         room_map.put("South Hall", SouthHall);

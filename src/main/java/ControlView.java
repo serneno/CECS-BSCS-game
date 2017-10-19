@@ -11,6 +11,7 @@ public class ControlView {
     MapModel map;
     JList room_list;
     JPanel curr_room_panel;
+    PlayerModel[] ai_players;
     RoomListModel rlm = new RoomListModel();
 
     public ControlView(MapModel map_model) {
@@ -41,23 +42,33 @@ public class ControlView {
         
         //Adds players and puts them  into the default room (Currently ECS 308)
         PlayerModel pm1 = new PlayerModel("Amanda", true);
+        pm1.setCurrentRoom("ECS 308");
         JLabel p1 = pm1.getPlayer();
         PlayerModel pm2 = new PlayerModel("Matt", false);
+        pm2.setCurrentRoom("ECS 308");
         JLabel p2 = pm2.getPlayer();
         PlayerModel pm3 = new PlayerModel("Karen", false);
+        pm3.setCurrentRoom("ECS 308");
         JLabel p3 = pm3.getPlayer();
         curr_room_panel = map.getRoomMap().get("ECS 308");
         curr_room_panel.add(p1);
         curr_room_panel.add(p2);
         curr_room_panel.add(p3);
 
+        ai_players = new PlayerModel[2];
+        ai_players[0] = pm2;
+        ai_players[1] = pm3;
         //Move Button
         JButton move_button = new JButton("Move");
         move_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //Updates the room list after a move
-                movePlayer(updateRoomList(), p1);
                 //Moves the player on the game board visually
+                movePlayer(updateRoomList(), p1);
+                //Delay between player and AI
+                sleep(300);
+                //Moves the AI
+                moveAI();
             }
         });
 
@@ -143,12 +154,39 @@ public class ControlView {
     }
 
     public void movePlayer(String room, JLabel p1) {
-        System.out.println(room);
         curr_room_panel.remove(p1); //removes human player, currently set to p1
+        curr_room_panel.repaint();
+        curr_room_panel.validate();
+
         curr_room_panel = map.getRoomMap().get(room);
         curr_room_panel.add(p1);
+    }
+
+    public void moveAI() {
         
-        curr_room_panel.repaint();
-        curr_room_panel.revalidate();
+        for(PlayerModel ai : ai_players) {
+            String curr_room = ai.getCurrentRoom().getName();
+            String[] room_adj = ai.room_list.get(curr_room).getRoomAdj();
+            int room_adj_length = room_adj.length;
+            int new_room_ind = (int) (Math.random() * room_adj_length);
+            String new_room = room_adj[new_room_ind];
+            ai.setCurrentRoom(new_room);
+            Container ai_curr_room = ai.getPlayer().getParent();
+            ai_curr_room.remove(ai.getPlayer());
+            ai_curr_room.repaint();
+            ai_curr_room.validate();
+
+            ai_curr_room = map.getRoomMap().get(new_room);
+            ai_curr_room.add(ai.getPlayer());
+            sleep(300);
+        }
+    }
+
+    public void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
     }
 }

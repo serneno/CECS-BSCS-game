@@ -6,7 +6,6 @@ import javax.swing.*;
 public class PlayerModel extends RoomListModel {
     JLabel player;
     boolean isHuman;
-    Room curr_room;
 
     public PlayerModel(String name, boolean isHuman) {
         player = new JLabel(name);
