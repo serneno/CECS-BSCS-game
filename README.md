@@ -6,15 +6,5 @@ To run the game (for now), in Command Prompt, type "java bin.main.classes.GameVi
 Team Members: Haydn Pang, Arjun Chawla
 
 TO-DO List (Iteration 1)
-- Add button functionalities
-    - Move Player
-        - Prerequisite: a room is selected from the room list
-        - Player is removed from current position
-        - Player is added in new position
-- Display players onto Map
-    - Uses relative position of each room in map
-    - If multiple players in a room, list them vertically (could be changed)
-- Game Controller
-    - Sequences through player -> AI 1 -> AI 2
-- Game AI
-    - Randomly picks a room to move from room list
+- Fix resizing to ensure the Game Map is anchored to the left with excess space on the right
+- Fix overlapping players in a room during a move
