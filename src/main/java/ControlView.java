@@ -178,11 +178,11 @@ public class ControlView {
             ai.setCurrentRoom(new_room);
             Container ai_curr_room = ai.getPlayer().getParent();
             ai_curr_room.remove(ai.getPlayer());
-            ai_curr_room.repaint();
-            ai_curr_room.validate();
 
             ai_curr_room = map.getRoomMap().get(new_room);
             ai_curr_room.add(ai.getPlayer());
+            ai_curr_room.repaint();
+            ai_curr_room.validate();
             sleep(300);
         }
     }
