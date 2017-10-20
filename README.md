@@ -5,6 +5,10 @@ To run the game (for now), in Command Prompt, type "java bin.main.classes.GameVi
 
 Team Members: Haydn Pang, Arjun Chawla
 
-TO-DO List (Iteration 1)
-- Fix resizing to ensure the Game Map is anchored to the left with excess space on the right
-- Fix overlapping players in a room during a move
+Changes from last push
+- Separated available room list in ControlView into its own method
+- Added popup when a room isn't selected when move is clicked
+- Merged all players and AI into PlayerModel[] array
+TO-DO List (Iteration 2)
+- Card Hand function (for player)
+- 

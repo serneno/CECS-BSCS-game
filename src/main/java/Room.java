@@ -3,7 +3,7 @@ package bin.main.classes;
 public class Room {
     public String room_name; //Name of Room
     public String[] room_adjacency; //rooms adjacent to this room
-    //public static Player[] player_list; //all the players in the game
+    //public static PlayerModel[] player_list; //all the players in the game
 
     Room() {
         room_name = "";

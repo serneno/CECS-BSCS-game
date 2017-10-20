@@ -34,7 +34,7 @@ public class GameView {
         gameview.add(map_scroll, c);*/
 
         // Game Controls Panel
-        ControlView gc = new ControlView(map);
+        ControlView gc = new ControlView(map, frame);
         JPanel game_control = gc.display();
         game_control.setAlignmentX(Component.RIGHT_ALIGNMENT);
         //map_scroll.setMaximumSize(new Dimension(Integer.MAX_VALUE, map_scroll.getMinimumSize().height));
@@ -58,7 +58,7 @@ public class GameView {
         JFrame frame = new JFrame("College Hustlers");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         // Sets the frame to fullsreen
-        //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         // Adds all the components into the main JFrame
         addComponents(frame.getContentPane());
         // Arrange the components inside the window
