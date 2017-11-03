@@ -10,10 +10,11 @@ public class ControlView {
     DefaultListModel room_model; //used to dynamically change room list
     MapModel map;
     JList room_list; //displays the rooms available to move
-    JPanel curr_room_panel;
+    JPanel curr_room_panel; //current panel the human player is in
     Container game_frame;
     PlayerModel[] players;
     RoomListModel rlm;
+    final static int MAX_MOVE = 3; //maximum number of moves
 
     public ControlView(MapModel map_model, Container frame) {
         map = map_model;
@@ -27,16 +28,7 @@ public class ControlView {
 
     //Returns the game control panel as JPanel
     public JPanel display() {
-        //Adds players and displays them into the default room (Currently ECS 308)
-        players = new PlayerModel[3];
-        players[0] = new PlayerModel("Amanda", true);
-        players[1] = new PlayerModel("Matt", false);
-        players[2] = new PlayerModel("Karen", false);
-
-        for(int i = 0; i < players.length; i++) {
-            players[i].setCurrentRoom("ECS 308");
-            curr_room_panel.add(players[i].getPlayer());
-        }
+        player_int(); //initializes players
 
         JPanel control_view = new JPanel();
         control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
@@ -119,15 +111,28 @@ public class ControlView {
         c.weightx = 0.8;
         control_view.add(current_stats, c);
 
-        JTextArea game_log = new JTextArea("Human player is Amanda");
-        game_log.setBorder(BorderFactory.createLineBorder(Color.black)); 
-        game_log.setEditable(false);
-        Jscr
+        JTextArea current_play = new JTextArea("Human player is" + players[0].getPlayer().getText());
+        current_play.setBorder(BorderFactory.createLineBorder(Color.black)); 
+        current_play.setEditable(false);
+        JScrollPane current_play_scroll = new JScrollPane(current_play);
         c.gridy = 1;
 
-        control_view.add(game_log, c);    
-        //control_view.setMinimumSize(new Dimension(Short.MAX_VALUE, 10));
+        control_view.add(current_play, c);    
         return control_view;
+    }
+
+    //Initializes players
+    //Will include in the future parameter for number of players and chooses a human player randomly
+    public void player_int() {
+        players = new PlayerModel[3];
+        players[0] = new PlayerModel("Amanda", true);
+        players[1] = new PlayerModel("Matt", false);
+        players[2] = new PlayerModel("Karen", false);
+
+        for(int i = 0; i < players.length; i++) {
+            players[i].setCurrentRoom("ECS 308");
+            curr_room_panel.add(players[i].getPlayer());
+        }
     }
 
     //Updates the room list after every move
@@ -154,6 +159,7 @@ public class ControlView {
         return "";
     }
 
+    //Moves the Human player
     public void movePlayer(String room, JLabel p1) {
         curr_room_panel.remove(p1); //removes human player, currently set to p1
         curr_room_panel.repaint();
@@ -165,6 +171,7 @@ public class ControlView {
         curr_room_panel.validate();
     }
 
+    //Moves the players
     public void moveAI() {   
         for(PlayerModel p : players) {
             if(p.isHuman) {
