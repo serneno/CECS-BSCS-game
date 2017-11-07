@@ -42,7 +42,7 @@ TO-DO List (Iteration 2)
 - Current Play Panel
     - Dimensions: 2/3 right width, 1/3 top height
     - Displays the following after each played card
-        - <Player> "played" <card name> ("for" <reward> | "failed")
+        - [Player] "played" [card name] ("for" [reward] | "failed")
 - AI Player move and play card
 - Dialog for discarding card
 - Dialog for selecting Skill Chip
