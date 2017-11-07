@@ -3,7 +3,7 @@ import java.util.*;
 
 //Creates all the available rooms in the game
 public class RoomListModel {
-    Map<String, Room> room_list = new HashMap<>();
+    Map<String, Room> room_list = new HashMap<String, Room>();
     Room curr_room; //current room
 
     RoomListModel() {

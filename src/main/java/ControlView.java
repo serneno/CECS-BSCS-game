@@ -28,7 +28,7 @@ public class ControlView {
 
     //Returns the game control panel as JPanel
     public JPanel display() {
-        player_int(); //initializes players
+        player_init(); //initializes players
 
         JPanel control_view = new JPanel();
         control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
@@ -123,7 +123,7 @@ public class ControlView {
 
     //Initializes players
     //Will include in the future parameter for number of players and chooses a human player randomly
-    public void player_int() {
+    public void player_init() {
         players = new PlayerModel[3];
         players[0] = new PlayerModel("Amanda", true);
         players[1] = new PlayerModel("Matt", false);
