@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
 //Represents the Card Deck and the Discard Pile
 public class CardDeckModel {
@@ -20,7 +21,7 @@ public class CardDeckModel {
     //Puts each card in the card_list Map
     //Assigns the set of keys in random order into the card_names List
     public void create_room_list() { 
-        card_names = new ArrayList<String>(card_list.entrySet());
+        card_names = new ArrayList<String>(card_list.keySet());
     }
 
     //Empties discard pile
