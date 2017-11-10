@@ -111,7 +111,7 @@ public class ControlView {
         c.weightx = 0.8;
         control_view.add(current_stats, c);
 
-        JTextArea current_play = new JTextArea("Human player is" + players[0].getPlayer().getText());
+        JTextArea current_play = new JTextArea("Human player is " + players[0].getPlayer().getText());
         current_play.setBorder(BorderFactory.createLineBorder(Color.black)); 
         current_play.setEditable(false);
         JScrollPane current_play_scroll = new JScrollPane(current_play);
@@ -125,12 +125,12 @@ public class ControlView {
     //Will include in the future parameter for number of players and chooses a human player randomly
     public void player_init() {
         players = new PlayerModel[3];
-        players[0] = new PlayerModel("Amanda", true);
-        players[1] = new PlayerModel("Matt", false);
-        players[2] = new PlayerModel("Karen", false);
+        players[0] = new PlayerModel("Amanda", true, rlm.getRoom("ECS 308"));
+        players[1] = new PlayerModel("Matt", false, rlm.getRoom("ECS 308"));
+        players[2] = new PlayerModel("Karen", false, rlm.getRoom("ECS 308"));
 
         for(int i = 0; i < players.length; i++) {
-            players[i].setCurrentRoom("ECS 308");
+            //players[i].setCurrentRoom("ECS 308");
             curr_room_panel.add(players[i].getPlayer());
         }
     }
@@ -179,11 +179,11 @@ public class ControlView {
             }
             else {
                 String curr_room = p.getCurrentRoom().getName();
-                String[] room_adj = p.room_list.get(curr_room).getRoomAdj();
+                String[] room_adj = rlm.getRoom(curr_room).getRoomAdj();
                 int room_adj_length = room_adj.length;
                 int new_room_ind = (int) (Math.random() * room_adj_length);
                 String new_room = room_adj[new_room_ind];
-                p.setCurrentRoom(new_room);
+                p.setCurrentRoom(rlm.getRoom(new_room));
                 Container ai_curr_room = p.getPlayer().getParent();
                 ai_curr_room.remove(p.getPlayer());
                 ai_curr_room.repaint();

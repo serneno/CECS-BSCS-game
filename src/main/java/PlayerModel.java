@@ -4,17 +4,19 @@ import java.awt.Color;
 import javax.swing.*;
 
 //Represents a Player
-public class PlayerModel extends RoomListModel {
+public class PlayerModel {
     JLabel player;      //To represent on the game board
     boolean isHuman;    //True if Human, False if AI
+    Room current_room;  //Current room the player is in
     int craft_chip;     //number of Craft Chips
     int integrity_chip; //number of Integrity Chips
     int learning_chip;  //Number of Learning Chips
     int quality_points; //Number of Quality Points
 
-    public PlayerModel(String name, boolean isHuman) {
+    public PlayerModel(String name, boolean isHuman, Room default_room) {
         player = new JLabel(name);
         this.isHuman = isHuman;
+        current_room = default_room;
         craft_chip = 0;
         integrity_chip = 0;
         learning_chip = 0;
@@ -31,6 +33,11 @@ public class PlayerModel extends RoomListModel {
     //False otherwise
     public boolean isHuman() {
         return isHuman;
+    }
+
+    //Returns the current Room the player is in
+    public Room getCurrentRoom() {
+        return current_room;
     }
 
     //Returns the number of Craft Chips the player possesses
@@ -51,5 +58,10 @@ public class PlayerModel extends RoomListModel {
     //Returns the number of Quality Points the lpayer possesses
     public int getQuality() {
         return quality_points;
+    }
+
+    //Sets the current room
+    public void setCurrentRoom(Room new_room) {
+        current_room = new_room;
     }
 }

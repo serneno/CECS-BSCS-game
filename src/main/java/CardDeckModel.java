@@ -34,4 +34,12 @@ public class CardDeckModel {
             deck.add(card_list.get(s));
         }
     }
+
+    public int cardsLeft() {
+        return deck.size();
+    }
+
+    public Card drawCard() {
+        return deck.remove(0);
+    }
 }

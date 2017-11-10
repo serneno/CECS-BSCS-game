@@ -6,7 +6,7 @@ public class RoomListModel {
     Map<String, Room> room_list = new HashMap<String, Room>();
     Room curr_room; //current room
 
-    RoomListModel() {
+    public RoomListModel() {
         genRoomList();
     }
 
@@ -58,6 +58,14 @@ public class RoomListModel {
 
     public Room getCurrentRoom() {
         return curr_room;
+    }
+
+    public Room getRoom(String room) {
+        return room_list.get(room);
+    }
+
+    public Map<String, Room> getRoomList() {
+        return room_list;
     }
 
     public void setCurrentRoom(String room) {
