@@ -15,13 +15,17 @@ public class CardDeckModel {
 
     public CardDeckModel() {
         card_list = new HashMap<String, Card>();
-        create_card_list();        
+        deck = new ArrayList<Card>();
+        discard = new ArrayList<Card>();
+        create_card_list();
+        shuffle();     
     }
 
     //Puts each card in the card_list Map
     //Assigns the set of keys in random order into the card_names List
     public void create_card_list() {
-        card_list.put("Cardm00", new Cardm00()); 
+        card_list.put("Cardm00", new Cardm00());
+        card_list.put("Cardm01", new Cardm01());
         card_names = new ArrayList<String>(card_list.keySet());
     }
 

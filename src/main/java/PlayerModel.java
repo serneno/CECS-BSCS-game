@@ -21,7 +21,7 @@ public class PlayerModel {
         this.isHuman = isHuman;
         current_room = default_room;
         hand = new ArrayList<Card>();
-        hand.add(new Cardm00());
+        //hand.add(new Cardm00());
         craft_chip = 0;
         integrity_chip = 0;
         learning_chip = 0;

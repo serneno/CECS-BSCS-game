@@ -12,7 +12,7 @@ public class Cardm00 extends Card {
 
     //If player in ECS 302 or ECS 308, get 1 Learning Chip
     public void play() {
-        System.out.println("Test");
+        
     }
 
 }

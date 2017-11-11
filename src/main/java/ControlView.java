@@ -15,8 +15,7 @@ public class ControlView {
     JButton draw_button, move_button, play_button;
     JList room_list;                                //displays the rooms available to move
     JPanel curr_room_panel;                         //current panel the human player is in
-    JPanel player_hand_panel;
-    JLabel player_hand;
+    JLabel player_hand;                             //Shows the current card that can be played from hand
     Container game_frame;
       
     final static int MAX_MOVE = 3;                  //maximum number of moves
@@ -44,7 +43,7 @@ public class ControlView {
         //Play Card Button (currently disabled)
         play_button = new JButton("Play Card");
         play_button.addActionListener(new HandlePlayCard());
-        play_button.setEnabled(false);
+        //play_button.setEnabled(false);
 
         //Player Hand
         player_hand = new JLabel();
@@ -80,20 +79,15 @@ public class ControlView {
         control_view.add(room_list(), c);
    
         //Display Player Hand (Doesn't work)
-        /*
+        
         Card test = deck.card_list.get("Cardm00");
-        */
-        Card test = new Cardm00();
+        
         player_hand.setIcon(test.getCardImage());
-        //player_hand.setBorder(BorderFactory.createLineBorder(Color.black));
         c.fill = GridBagConstraints.NONE;
-        //c.anchor = GridBagConstraints.CENTER;
         c.gridx = 1;
         c.gridy = 0;
-        //c.insets = new Insets(10, 10, 10, 10);
         c.weightx = 0.1;
         c.gridheight = 2;
-        //player_hand_panel.add(player_hand);
         control_view.add(player_hand, c);     
         
         //For future iteration
@@ -224,11 +218,9 @@ public class ControlView {
     //Handles Draw Card actions
     class HandleDrawCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            players[0].getHand().add(deck.drawCard());
             draw_button.setEnabled(false);
-            //Do card drawing stuff
-            
             move_button.setEnabled(true);
-            //players[0].getHand().add(deck.drawCard()); error
         }
     }
 
