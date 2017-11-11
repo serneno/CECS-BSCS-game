@@ -2,12 +2,15 @@ package bin.main.classes;
 
 import java.awt.Color;
 import javax.swing.*;
+import java.util.List;
+import java.util.ArrayList;
 
 //Represents a Player
 public class PlayerModel {
     JLabel player;      //To represent on the game board
     boolean isHuman;    //True if Human, False if AI
     Room current_room;  //Current room the player is in
+    List<Card> hand;    //Player hand
     int craft_chip;     //number of Craft Chips
     int integrity_chip; //number of Integrity Chips
     int learning_chip;  //Number of Learning Chips
@@ -17,6 +20,8 @@ public class PlayerModel {
         player = new JLabel(name);
         this.isHuman = isHuman;
         current_room = default_room;
+        hand = new ArrayList<Card>();
+        hand.add(new Cardm00());
         craft_chip = 0;
         integrity_chip = 0;
         learning_chip = 0;
@@ -38,6 +43,11 @@ public class PlayerModel {
     //Returns the current Room the player is in
     public Room getCurrentRoom() {
         return current_room;
+    }
+
+    //Returns players hand
+    public List getHand() {
+        return hand;
     }
 
     //Returns the number of Craft Chips the player possesses

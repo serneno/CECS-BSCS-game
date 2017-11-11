@@ -12,6 +12,10 @@ public class Cardm00 extends Card {
         card_ID = 0;
     }
 
+    public ImageIcon getCardImage() {
+        return card_img;
+    }
+
     //If player in ECS 302 or ECS 308, get 1 Learning Chip
     public void play() {
     }

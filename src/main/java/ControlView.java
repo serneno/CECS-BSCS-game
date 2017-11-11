@@ -6,24 +6,49 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class ControlView {
-    String[] rooms_available;
-    DefaultListModel room_model; //used to dynamically change room list
+    String[] rooms_available;                       //List of adjacent rooms available for a player
+    DefaultListModel room_model;                    //used to dynamically change room list
+    CardDeckModel deck;
     MapModel map;
-    JList room_list; //displays the rooms available to move
-    JPanel curr_room_panel; //current panel the human player is in
+    PlayerModel[] players;                          //Current Players
+    RoomListModel rlm;    
+    JButton draw_button, move_button, play_button;
+    JList room_list;                                //displays the rooms available to move
+    JPanel curr_room_panel;                         //current panel the human player is in
+    JPanel player_hand_panel;
+    JLabel player_hand;
     Container game_frame;
-    PlayerModel[] players;
-    RoomListModel rlm;
-    final static int MAX_MOVE = 3; //maximum number of moves
+      
+    final static int MAX_MOVE = 3;                  //maximum number of moves
+    final static String DEF_ROOM = "ECS 308";
 
     public ControlView(MapModel map_model, Container frame) {
         map = map_model;
         game_frame = frame;
+        deck = new CardDeckModel();
         room_model = new DefaultListModel();
         rlm = new RoomListModel();
-        rlm.setCurrentRoom("ECS 308"); //sets default room players start in
-        rooms_available = rlm.getCurrentRoom().getRoomAdj();
-        curr_room_panel = map.getRoomMap().get("ECS 308");
+        //rlm.setCurrentRoom("ECS 308"); //sets default room players start in
+        rooms_available = rlm.getRoom(DEF_ROOM).getRoomAdj();
+        curr_room_panel = map.getRoomMap().get(DEF_ROOM);
+
+        //Draw Card Button
+        draw_button = new JButton("Draw Card");
+        draw_button.addActionListener(new HandleDrawCard());
+        
+        //Move Button
+        move_button = new JButton("Move");
+        move_button.addActionListener(new HandleMovePlayer());
+        move_button.setEnabled(false);
+
+        //Play Card Button (currently disabled)
+        play_button = new JButton("Play Card");
+        play_button.addActionListener(new HandlePlayCard());
+        play_button.setEnabled(false);
+
+        //Player Hand
+        player_hand = new JLabel();
+        player_hand.addMouseListener(new HandlePlayerHand());
     }
 
     //Returns the game control panel as JPanel
@@ -42,30 +67,7 @@ public class ControlView {
         c.gridx = c.gridy = 0;
         c.insets = new Insets(10, 10, 10, 10);
         c.ipadx = c.ipady = 10;
-        c.weightx = 0.1;
-
-        //Draw Card Button (currently disabled)
-        JButton draw_button = new JButton("Draw Card");
-        draw_button.setEnabled(false);
-        
-        //Move Button
-        JButton move_button = new JButton("Move");
-        move_button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //Updates the room list after a move
-                //Moves the player on the game board visually
-                String room_moved = updateRoomList();
-                if(!room_moved.equals("")) {
-                    movePlayer(room_moved, players[0].getPlayer());
-                    //Moves the AI
-                    moveAI();
-                }
-            }
-        });
-
-        //Play Card Button (currently disabled)
-        JButton play_button = new JButton("Play Card");
-        play_button.setEnabled(false);
+        c.weightx = 0.1; 
 
         act_buttons.add(draw_button);
         act_buttons.add(move_button);
@@ -77,17 +79,23 @@ public class ControlView {
         c.gridy = 1;
         control_view.add(room_list(), c);
    
-        //Display current card
-        JPanel current_card = new JPanel();
-        JTextArea card_placeholder = new JTextArea("This will contain a card.");
-        current_card.setBorder(BorderFactory.createLineBorder(Color.black));
-        current_card.add(card_placeholder);
-        c.fill = GridBagConstraints.VERTICAL;
+        //Display Player Hand (Doesn't work)
+        /*
+        Card test = deck.card_list.get("Cardm00");
+        test.play();
+        */
+        Card test = new Cardm00();
+        player_hand.setIcon(test.getCardImage());
+        //player_hand.setBorder(BorderFactory.createLineBorder(Color.black));
+        c.fill = GridBagConstraints.NONE;
+        //c.anchor = GridBagConstraints.CENTER;
         c.gridx = 1;
         c.gridy = 0;
-        c.insets = new Insets(10, 10, 10, 10);
+        //c.insets = new Insets(10, 10, 10, 10);
         c.weightx = 0.1;
-        control_view.add(current_card, c);     
+        c.gridheight = 2;
+        //player_hand_panel.add(player_hand);
+        control_view.add(player_hand, c);     
         
         //For future iteration
         
@@ -106,6 +114,7 @@ public class ControlView {
         c.fill = GridBagConstraints.BOTH;
         c.gridx = 2;
         c.gridy = 0;
+        c.gridheight = 1;
         c.ipadx = c.ipady = 20;
         c.insets = new Insets(10, 10, 10, 10);
         c.weightx = 0.8;
@@ -125,9 +134,9 @@ public class ControlView {
     //Will include in the future parameter for number of players and chooses a human player randomly
     public void player_init() {
         players = new PlayerModel[3];
-        players[0] = new PlayerModel("Amanda", true, rlm.getRoom("ECS 308"));
-        players[1] = new PlayerModel("Matt", false, rlm.getRoom("ECS 308"));
-        players[2] = new PlayerModel("Karen", false, rlm.getRoom("ECS 308"));
+        players[0] = new PlayerModel("Amanda", true, rlm.getRoom(DEF_ROOM));
+        players[1] = new PlayerModel("Matt", false, rlm.getRoom(DEF_ROOM));
+        players[2] = new PlayerModel("Karen", false, rlm.getRoom(DEF_ROOM));
 
         for(int i = 0; i < players.length; i++) {
             //players[i].setCurrentRoom("ECS 308");
@@ -211,5 +220,52 @@ public class ControlView {
         room_list_scroller.setMinimumSize(new Dimension(100, 80));
 
         return room_list_scroller;
+    }
+
+    //Handles Draw Card actions
+    class HandleDrawCard implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            draw_button.setEnabled(false);
+            //Do card drawing stuff
+            players[0].getHand().add(deck.drawCard());
+            move_button.setEnabled(true);
+        }
+    }
+
+    //Handles Move Player actions
+    class HandleMovePlayer implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            //Updates the room list after a move
+            //Moves the player on the game board visually
+            String room_moved = updateRoomList();
+            if(!room_moved.equals("")) {
+                movePlayer(room_moved, players[0].getPlayer());
+                //Moves the AI
+                moveAI();
+            }
+        }
+    }
+
+    //Handles Play Card actions
+    class HandlePlayCard implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            play_button.setEnabled(false);
+        }
+    }
+
+    //Handles Player's Hand
+    class HandlePlayerHand implements MouseListener {
+        //Chooses the next Card to display on the panel
+        public void mousePressed(MouseEvent e) {
+            System.out.println("You pressed here");
+        }
+
+        public void mouseReleased(MouseEvent e) {}
+        public void mouseEntered(MouseEvent e) {}
+        public void mouseExited(MouseEvent e) {}
+        public void mouseClicked(MouseEvent e) {
+            System.out.println("You clicked here");
+        }
+
     }
 }
