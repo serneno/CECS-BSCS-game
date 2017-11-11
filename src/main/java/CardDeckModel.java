@@ -26,6 +26,8 @@ public class CardDeckModel {
     public void create_card_list() {
         card_list.put("Cardm00", new Cardm00());
         card_list.put("Cardm01", new Cardm01());
+        card_list.put("Cardm02", new Cardm02());
+        card_list.put("Cardm03", new Cardm03());
         card_names = new ArrayList<String>(card_list.keySet());
     }
 
@@ -48,5 +50,10 @@ public class CardDeckModel {
     //Returns the first card in the deck
     public Card drawCard() {
         return deck.remove(0);
+    }
+
+    //Discards a card
+    public void discard(Card dCard) {
+        discard.add(dCard);
     }
 }

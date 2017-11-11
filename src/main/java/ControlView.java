@@ -9,6 +9,8 @@ public class ControlView {
     String[] rooms_available;                       //List of adjacent rooms available for a player
     DefaultListModel room_model;                    //used to dynamically change room list
     CardDeckModel deck;
+    Card current_card;
+    int current_card_index;
     MapModel map;
     PlayerModel[] players;                          //Current Players
     RoomListModel rlm;    
@@ -27,9 +29,12 @@ public class ControlView {
         deck = new CardDeckModel();
         room_model = new DefaultListModel();
         rlm = new RoomListModel();
-        //rlm.setCurrentRoom("ECS 308"); //sets default room players start in
         rooms_available = rlm.getRoom(DEF_ROOM).getRoomAdj();
         curr_room_panel = map.getRoomMap().get(DEF_ROOM);
+
+        player_init(); //initializes players
+        current_card = (Card) players[0].getHand().get(0);
+        current_card_index = 0;
 
         //Draw Card Button
         draw_button = new JButton("Draw Card");
@@ -52,7 +57,6 @@ public class ControlView {
 
     //Returns the game control panel as JPanel
     public JPanel display() {
-        player_init(); //initializes players
 
         JPanel control_view = new JPanel();
         control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
@@ -78,11 +82,8 @@ public class ControlView {
         c.gridy = 1;
         control_view.add(room_list(), c);
    
-        //Display Player Hand (Doesn't work)
-        
-        Card test = deck.card_list.get("Cardm00");
-        
-        player_hand.setIcon(test.getCardImage());
+        //Display Player Hand 
+        player_hand.setIcon(current_card.getCardImage());
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 0;
@@ -98,7 +99,7 @@ public class ControlView {
             players[0].getPlayer().getText() + "\t6\t6\t6\t0\n" + 
             players[1].getPlayer().getText() + "\t6\t6\t6\t0\n" +
             players[2].getPlayer().getText() + "\t6\t6\t6\t0\n\n" +
-            "Cards in deck:\t50" +
+            "Cards in deck:\t" + deck.cardsLeft() +
             "\tDiscards out of play: \t0\n" +
             "You are " + players[0].getPlayer().getText() +" and you are in the " + players[0].getCurrentRoom().getName() 
         );
@@ -135,6 +136,9 @@ public class ControlView {
             //players[i].setCurrentRoom("ECS 308");
             curr_room_panel.add(players[i].getPlayer());
         }
+        //Going to give each player 5 cards initially (currently testing with few)
+        players[0].getHand().add(deck.drawCard());
+        players[0].getHand().add(deck.drawCard());
     }
 
     //Updates the room list after every move
@@ -149,8 +153,8 @@ public class ControlView {
         }
         else {
             String room_moved = selected_room;
-            rlm.setCurrentRoom(room_moved);
-            Room curr_room = rlm.getCurrentRoom();
+            //rlm.setCurrentRoom(room_moved);
+            Room curr_room = rlm.getRoom(room_moved);
             rooms_available = curr_room.getRoomAdj();
             room_model.removeAllElements();
             for(int i = 0; i < rooms_available.length; i++) {
@@ -241,6 +245,9 @@ public class ControlView {
     //Handles Play Card actions
     class HandlePlayCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            current_card.play();
+            deck.discard(current_card);
+            //players[0].getHand().remove(0);
             play_button.setEnabled(false);
         }
     }
@@ -249,6 +256,8 @@ public class ControlView {
     class HandlePlayerHand implements MouseListener {
         //Chooses the next Card to display on the panel
         public void mousePressed(MouseEvent e) {
+            Card next_card = (Card)players[0].getHand().get(current_card_index++);
+            player_hand.setIcon(next_card.getCardImage());
             System.out.println("You pressed here");
         }
 

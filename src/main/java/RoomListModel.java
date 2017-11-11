@@ -55,11 +55,11 @@ public class RoomListModel {
         Room WestWalkway = new Room("West Walkway", new String[] {"George Allen Field", "Library", "North Hall", "REC Center"});
         room_list.put("West Walkway", WestWalkway);
     }
-
+    /*
     public Room getCurrentRoom() {
         return curr_room;
     }
-
+    */
     public Room getRoom(String room) {
         return room_list.get(room);
     }
@@ -68,7 +68,9 @@ public class RoomListModel {
         return room_list;
     }
 
+    /*
     public void setCurrentRoom(String room) {
         curr_room = room_list.get(room);
     }
+    */
 }
