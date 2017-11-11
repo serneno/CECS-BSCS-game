@@ -4,8 +4,6 @@ import javax.swing.*;
 
 //Main Parent class representing a Card
 public class Cardm01 extends Card {
-    ImageIcon card_img; //Card image
-    int card_ID; //Card ID
 
     public Cardm01() {
         card_img = new ImageIcon("./resources/cardm01.png");

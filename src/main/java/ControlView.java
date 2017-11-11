@@ -82,7 +82,6 @@ public class ControlView {
         //Display Player Hand (Doesn't work)
         /*
         Card test = deck.card_list.get("Cardm00");
-        test.play();
         */
         Card test = new Cardm00();
         player_hand.setIcon(test.getCardImage());
@@ -148,7 +147,7 @@ public class ControlView {
     //Returns the room to be moved too
     public String updateRoomList() {
         String selected_room = (String)room_list.getSelectedValue();
-        if(selected_room == null) { //null pointer exception
+        if(selected_room == null) {
             JOptionPane.showMessageDialog(game_frame,
             "Please select a room.",
             "",
@@ -227,8 +226,9 @@ public class ControlView {
         public void actionPerformed(ActionEvent e) {
             draw_button.setEnabled(false);
             //Do card drawing stuff
-            players[0].getHand().add(deck.drawCard());
+            
             move_button.setEnabled(true);
+            //players[0].getHand().add(deck.drawCard()); error
         }
     }
 

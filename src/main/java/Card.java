@@ -6,7 +6,7 @@ import javax.swing.*;
 public class Card extends JLabel {
     ImageIcon card_img; //Card image
     int card_ID;        //Card ID
-
+    
     public ImageIcon getCardImage() {
         return card_img;
     }
