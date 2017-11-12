@@ -33,8 +33,6 @@ public class ControlView {
         curr_room_panel = map.getRoomMap().get(DEF_ROOM);
 
         player_init(); //initializes players
-        current_card = (Card) players[0].getHand().get(0);
-        current_card_index = 0;
 
         //Draw Card Button
         draw_button = new JButton("Draw Card");
@@ -45,7 +43,7 @@ public class ControlView {
         move_button.addActionListener(new HandleMovePlayer());
         move_button.setEnabled(false);
 
-        //Play Card Button (currently disabled)
+        //Play Card Button
         play_button = new JButton("Play Card");
         play_button.addActionListener(new HandlePlayCard());
         play_button.setEnabled(false);
@@ -53,11 +51,12 @@ public class ControlView {
         //Player Hand
         player_hand = new JLabel();
         player_hand.addMouseListener(new HandlePlayerHand());
+        current_card = players[0].getHand().get(0); //first card to be displayed
+        current_card_index = 1; //Initialized as index 1 for the next card in hand
     }
 
     //Returns the game control panel as JPanel
     public JPanel display() {
-
         JPanel control_view = new JPanel();
         control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         control_view.setLayout(new GridBagLayout());
@@ -152,7 +151,6 @@ public class ControlView {
         }
         else {
             String room_moved = selected_room;
-            //rlm.setCurrentRoom(room_moved);
             Room curr_room = rlm.getRoom(room_moved);
             rooms_available = curr_room.getRoomAdj();
             room_model.removeAllElements();
@@ -265,10 +263,15 @@ public class ControlView {
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
         public void mouseClicked(MouseEvent e) {
-            System.out.println(current_card_index);
-            Card next_card = (Card)players[0].getHand().get(current_card_index++);
+            Card next_card = (Card)players[0].getHand().get(current_card_index);
             player_hand.setIcon(next_card.getCardImage());
-            System.out.println("You clicked here");
+            if(current_card_index < players[0].getHand().size() - 1) {
+                current_card_index++;
+            }
+            else {
+                //resets the current card to the beginning of the hand once it reaches the end
+                current_card_index = 0; 
+            }
         }
 
     }
