@@ -10,8 +10,8 @@ import java.util.List;
 public class CardDeckModel {
     Map<String, Card> card_list;    //List of all cards available using a Map
     List<String> card_names;        //List of card names, used for shuffling
-    ArrayList<Card> deck;           //current deck
-    ArrayList<Card> discard;        //discard pile
+    List<Card> deck;           //current deck
+    List<Card> discard;        //discard pile
 
     public CardDeckModel() {
         card_list = new HashMap<String, Card>();

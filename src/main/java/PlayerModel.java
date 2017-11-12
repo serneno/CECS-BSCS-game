@@ -46,7 +46,7 @@ public class PlayerModel {
     }
 
     //Returns players hand
-    public List getHand() {
+    public List<Card> getHand() {
         return hand;
     }
 
