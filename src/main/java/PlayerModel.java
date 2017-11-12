@@ -21,12 +21,27 @@ public class PlayerModel {
         this.isHuman = isHuman;
         current_room = default_room;
         hand = new ArrayList<Card>();
-        //hand.add(new Cardm00());
         craft_chip = 0;
         integrity_chip = 0;
         learning_chip = 0;
         quality_points = 0;
         player.setForeground(Color.red);    //Current Default Color
+    }
+
+    public void addCraft(int count) {
+        craft_chip += count;
+    }
+
+    public void addIntegrity(int count) {
+        integrity_chip += count;
+    }
+    
+    public void addLearning(int count) {
+        learning_chip += count;
+    }
+
+    public void addQuality(int count) {
+        quality_points += count;
     }
 
     //Returns the player as a JLabel for movement on game board

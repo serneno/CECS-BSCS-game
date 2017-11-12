@@ -11,6 +11,10 @@ public class Cardm02 extends Card {
     }
 
     //If player in Bratwurst Hall, get 1 Craft Chip
-    public void play() {
+    public void play(PlayerModel player) {
+        if (player.getCurrentRoom().getName().equals("Bratwurst Hall")) {
+            player.addCraft(1);
+            System.out.println("Cardm02");
+        }
     }
 }

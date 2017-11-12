@@ -11,8 +11,12 @@ public class Card extends JLabel {
         return card_img;
     }
 
+    public int getCardID() {
+        return card_ID;
+    }
+
     //Will be overridden by each child Card class
-    public void play(){
-        System.out.println("Card ID:" + card_ID);
+    public void play(PlayerModel player){
+        System.out.println("Card ID:" + getCardID());
     }
 }

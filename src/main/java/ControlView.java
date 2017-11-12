@@ -10,7 +10,7 @@ public class ControlView {
     DefaultListModel<String> room_model;            //used to dynamically change room list
     CardDeckModel deck;
     Card current_card;
-    int current_card_index;
+    int current_card_index, move_count;
     MapModel map;
     PlayerModel[] players;                          //Current Players
     RoomListModel rlm;    
@@ -33,8 +33,6 @@ public class ControlView {
         curr_room_panel = map.getRoomMap().get(DEF_ROOM);
 
         player_init(); //initializes players
-        current_card = (Card) players[0].getHand().get(0);
-        current_card_index = 0;
 
         //Draw Card Button
         draw_button = new JButton("Draw Card");
@@ -44,20 +42,22 @@ public class ControlView {
         move_button = new JButton("Move");
         move_button.addActionListener(new HandleMovePlayer());
         move_button.setEnabled(false);
+        move_count = 0;
 
-        //Play Card Button (currently disabled)
+        //Play Card Button
         play_button = new JButton("Play Card");
         play_button.addActionListener(new HandlePlayCard());
-        //play_button.setEnabled(false);
+        play_button.setEnabled(false);
 
         //Player Hand
         player_hand = new JLabel();
         player_hand.addMouseListener(new HandlePlayerHand());
+        current_card = players[0].getHand().get(0); //first card to be displayed
+        current_card_index = 0; 
     }
 
     //Returns the game control panel as JPanel
     public JPanel display() {
-
         JPanel control_view = new JPanel();
         control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         control_view.setLayout(new GridBagLayout());
@@ -132,7 +132,6 @@ public class ControlView {
         players[2] = new PlayerModel("Karen", false, rlm.getRoom(DEF_ROOM));
 
         for(int i = 0; i < players.length; i++) {
-            //players[i].setCurrentRoom("ECS 308");
             curr_room_panel.add(players[i].getPlayer());
         }
         //Going to give each player 5 cards initially (currently testing with few)
@@ -152,7 +151,6 @@ public class ControlView {
         }
         else {
             String room_moved = selected_room;
-            //rlm.setCurrentRoom(room_moved);
             Room curr_room = rlm.getRoom(room_moved);
             rooms_available = curr_room.getRoomAdj();
             room_model.removeAllElements();
@@ -218,12 +216,25 @@ public class ControlView {
         return room_list_scroller;
     }
 
+    //Changes the card displayed of a player's hand 
+    public void changeCardDisplay() {
+        if (current_card_index < players[0].getHand().size() - 1) {
+            current_card_index++;
+        } else {
+            current_card_index = 0;
+        }
+        current_card = players[0].getHand().get(current_card_index);
+        player_hand.setIcon(current_card.getCardImage());
+    }
+
     //Handles Draw Card actions
+    //Adds card from deck to the end of a player's hand
     class HandleDrawCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             players[0].getHand().add(deck.drawCard());
             draw_button.setEnabled(false);
             move_button.setEnabled(true);
+            play_button.setEnabled(true);
         }
     }
 
@@ -238,37 +249,41 @@ public class ControlView {
                 //Moves the AI
                 moveAI();
             }
+            move_count++;
+            //Ensures that a player can only move up to 3 spaces
+            if(move_count == MAX_MOVE) {
+                move_button.setEnabled(false);
+                move_count = 0;
+            }
         }
     }
 
     //Handles Play Card actions
     class HandlePlayCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            current_card.play();
+            current_card.play(players[current_card_index]);
+            //Discard Card and update the player's hand (Currently does not update visually dynamically)
             deck.discard(current_card);
-            //players[0].getHand().remove(0);
+            players[0].getHand().remove(current_card_index);
+            changeCardDisplay();
+
+            //Sets the buttons after Play Card is clicked
             play_button.setEnabled(false);
-            //After player, AI's turn
             draw_button.setEnabled(true);
             move_button.setEnabled(false);
+            //After player, AI's turn
         }
     }
 
     //Handles Player's Hand (Currently only works after clicked once)
     class HandlePlayerHand implements MouseListener {
         //Chooses the next Card to display on the panel
-        public void mousePressed(MouseEvent e) {
-            System.out.println("You pressed here");
-        }
-
+        public void mousePressed(MouseEvent e) {}
         public void mouseReleased(MouseEvent e) {}
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
         public void mouseClicked(MouseEvent e) {
-            System.out.println(current_card_index);
-            Card next_card = (Card)players[0].getHand().get(current_card_index++);
-            player_hand.setIcon(next_card.getCardImage());
-            System.out.println("You clicked here");
+            changeCardDisplay();
         }
 
     }
