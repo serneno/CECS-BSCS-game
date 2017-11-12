@@ -16,7 +16,7 @@ public class Card extends JLabel {
     }
 
     //Will be overridden by each child Card class
-    public void play(){
+    public void play(PlayerModel player){
         System.out.println("Card ID:" + getCardID());
     }
 }

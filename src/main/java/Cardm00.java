@@ -11,8 +11,11 @@ public class Cardm00 extends Card {
     }
 
     //If player in ECS 302 or ECS 308, get 1 Learning Chip
-    public void play() {
-        System.out.println("Cardm00");
+    public void play(PlayerModel player) {
+        if(player.getCurrentRoom().getName().equals("ECS 302") || player.getCurrentRoom().getName().equals("ECS 308")) {
+            player.addLearning(1);
+            System.out.println("Cardm00");
+        }
     }
 
 }

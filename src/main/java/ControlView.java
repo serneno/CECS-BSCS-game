@@ -53,7 +53,7 @@ public class ControlView {
         player_hand = new JLabel();
         player_hand.addMouseListener(new HandlePlayerHand());
         current_card = players[0].getHand().get(0); //first card to be displayed
-        current_card_index = 1; //Initialized as index 1 for the next card in hand
+        current_card_index = 0; 
     }
 
     //Returns the game control panel as JPanel
@@ -132,7 +132,6 @@ public class ControlView {
         players[2] = new PlayerModel("Karen", false, rlm.getRoom(DEF_ROOM));
 
         for(int i = 0; i < players.length; i++) {
-            //players[i].setCurrentRoom("ECS 308");
             curr_room_panel.add(players[i].getPlayer());
         }
         //Going to give each player 5 cards initially (currently testing with few)
@@ -217,14 +216,20 @@ public class ControlView {
         return room_list_scroller;
     }
 
-    //Changes the card displayed of a player's hand
+    //Changes the card displayed of a player's hand (not working)
     public void changeCardDisplay() {
-        Card next_card = (Card) players[0].getHand().get(current_card_index);
-        player_hand.setIcon(next_card.getCardImage());
+        if(current_card_index == 0) {
+            current_card = (Card) players[0].getHand().get(current_card_index + 1);
+        }
+        else {
+            current_card = (Card) players[0].getHand().get(current_card_index);
+        }
+        player_hand.setIcon(current_card.getCardImage());
+
         if (current_card_index < players[0].getHand().size() - 1) {
             current_card_index++;
-        } else {
-            //resets the current card to the beginning of the hand once it reaches the end
+        }
+        else {
             current_card_index = 0;
         }
     }
@@ -263,10 +268,10 @@ public class ControlView {
     //Handles Play Card actions
     class HandlePlayCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            current_card.play();
+            current_card.play(players[current_card_index]);
             //Discard Card and update the player's hand (Currently does not update visually dynamically)
             deck.discard(current_card);
-            players[0].getHand().remove(0);
+            players[0].getHand().remove(current_card_index);
             changeCardDisplay();
 
             //Sets the buttons after Play Card is clicked
