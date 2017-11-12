@@ -256,8 +256,6 @@ public class ControlView {
     class HandlePlayerHand implements MouseListener {
         //Chooses the next Card to display on the panel
         public void mousePressed(MouseEvent e) {
-            Card next_card = (Card)players[0].getHand().get(current_card_index++);
-            player_hand.setIcon(next_card.getCardImage());
             System.out.println("You pressed here");
         }
 
@@ -265,6 +263,8 @@ public class ControlView {
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
         public void mouseClicked(MouseEvent e) {
+            Card next_card = (Card)players[0].getHand().get(current_card_index++);
+            player_hand.setIcon(next_card.getCardImage());
             System.out.println("You clicked here");
         }
 
