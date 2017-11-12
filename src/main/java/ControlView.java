@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class ControlView {
     String[] rooms_available;                       //List of adjacent rooms available for a player
-    DefaultListModel<String> room_model;                    //used to dynamically change room list
+    DefaultListModel<String> room_model;            //used to dynamically change room list
     CardDeckModel deck;
     Card current_card;
     int current_card_index;
@@ -15,7 +15,7 @@ public class ControlView {
     PlayerModel[] players;                          //Current Players
     RoomListModel rlm;    
     JButton draw_button, move_button, play_button;
-    JList<String> room_list;                                //displays the rooms available to move
+    JList<String> room_list;                        //displays the rooms available to move
     JPanel curr_room_panel;                         //current panel the human player is in
     JLabel player_hand;                             //Shows the current card that can be played from hand
     Container game_frame;
@@ -57,6 +57,7 @@ public class ControlView {
 
     //Returns the game control panel as JPanel
     public JPanel display() {
+
         JPanel control_view = new JPanel();
         control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         control_view.setLayout(new GridBagLayout());
@@ -250,11 +251,10 @@ public class ControlView {
             //After player, AI's turn
             draw_button.setEnabled(true);
             move_button.setEnabled(false);
-
         }
     }
 
-    //Handles Player's Hand
+    //Handles Player's Hand (Currently only works after clicked once)
     class HandlePlayerHand implements MouseListener {
         //Chooses the next Card to display on the panel
         public void mousePressed(MouseEvent e) {
@@ -265,6 +265,7 @@ public class ControlView {
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
         public void mouseClicked(MouseEvent e) {
+            System.out.println(current_card_index);
             Card next_card = (Card)players[0].getHand().get(current_card_index++);
             player_hand.setIcon(next_card.getCardImage());
             System.out.println("You clicked here");
