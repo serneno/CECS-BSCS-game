@@ -28,6 +28,13 @@ public class CardDeckModel {
         card_list.put("Cardm01", new Cardm01());
         card_list.put("Cardm02", new Cardm02());
         card_list.put("Cardm03", new Cardm03());
+        card_list.put("Cardm04", new Cardm04());
+        card_list.put("Cardm05", new Cardm05());
+        card_list.put("Cardm06", new Cardm06());
+        card_list.put("Cardm07", new Cardm07());
+        card_list.put("Cardm08", new Cardm08());
+        card_list.put("Cardm09", new Cardm09());
+        card_list.put("Cardm10", new Cardm10());
         card_names = new ArrayList<String>(card_list.keySet());
     }
 

@@ -1,13 +1,14 @@
 package bin.main.classes;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 
-//Main Parent class representing a Card
+//Math 122
 public class Cardm01 extends Card {
 
     public Cardm01() {
         card_img = new ImageIcon("./resources/cardm01.png");
         card_ID = 1;
+        card_name = "Math 122";
     }
 
     //If player in Library, get 1 Learning Chip or 1 Integrity Chip
@@ -16,6 +17,7 @@ public class Cardm01 extends Card {
             //Needs to have a dialog pop-up to choose chip
             //player.addLearning(1);
             //player.addIntegrity(1);
+            System.out.println(player.getPlayer().getName() + " played " + getName() + "for 1 Learning Chip or 1 Integrity Chip");
         }
     }
 }

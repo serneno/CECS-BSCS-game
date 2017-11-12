@@ -135,8 +135,9 @@ public class ControlView {
             curr_room_panel.add(players[i].getPlayer());
         }
         //Going to give each player 5 cards initially (currently testing with few)
-        players[0].getHand().add(deck.drawCard());
-        players[0].getHand().add(deck.drawCard());
+        for(int i = 0; i < 5; i++) {
+            players[0].getHand().add(deck.drawCard());
+        }
     }
 
     //Updates the room list after every move
@@ -164,23 +165,22 @@ public class ControlView {
 
     //Moves the Human player
     public void movePlayer(String room, JLabel p1) {
-        curr_room_panel.remove(p1); //removes human player, currently set to p1
+        //removes human player from board, currently in p1
+        curr_room_panel.remove(p1); 
         curr_room_panel.repaint();
         curr_room_panel.validate();
 
+        //adds human player into the room indicated by the room parameter
         curr_room_panel = map.getRoomMap().get(room);
         curr_room_panel.add(p1);
         curr_room_panel.repaint();
         curr_room_panel.validate();
     }
 
-    //Moves the players
+    //Moves the AI players
     public void moveAI() {   
         for(PlayerModel p : players) {
-            if(p.isHuman) {
-                
-            }
-            else {
+            if(!p.isHuman()) {
                 String curr_room = p.getCurrentRoom().getName();
                 String[] room_adj = rlm.getRoom(curr_room).getRoomAdj();
                 int room_adj_length = room_adj.length;
@@ -191,7 +191,7 @@ public class ControlView {
                 ai_curr_room.remove(p.getPlayer());
                 ai_curr_room.repaint();
                 ai_curr_room.validate();
-
+                //Adds the AI player into the new room
                 ai_curr_room = map.getRoomMap().get(new_room);
                 ai_curr_room.add(p.getPlayer());
                 ai_curr_room.repaint();

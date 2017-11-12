@@ -1,13 +1,14 @@
 package bin.main.classes;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
 
-//Main Parent class representing a Card
+//CECS 100
 public class Cardm00 extends Card {
 
     public Cardm00() {
         card_img = new ImageIcon("./resources/cardm00.png");
         card_ID = 0;
+        card_name = "CECS 100";
     }
 
     //If player in ECS 302 or ECS 308, get 1 Learning Chip
@@ -17,5 +18,4 @@ public class Cardm00 extends Card {
             System.out.println("Cardm00");
         }
     }
-
 }
