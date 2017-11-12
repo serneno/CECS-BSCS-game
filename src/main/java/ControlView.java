@@ -10,7 +10,7 @@ public class ControlView {
     DefaultListModel<String> room_model;            //used to dynamically change room list
     CardDeckModel deck;
     Card current_card;
-    int current_card_index;
+    int current_card_index, move_count;
     MapModel map;
     PlayerModel[] players;                          //Current Players
     RoomListModel rlm;    
@@ -42,6 +42,7 @@ public class ControlView {
         move_button = new JButton("Move");
         move_button.addActionListener(new HandleMovePlayer());
         move_button.setEnabled(false);
+        move_count = 0;
 
         //Play Card Button
         play_button = new JButton("Play Card");
@@ -222,6 +223,7 @@ public class ControlView {
             players[0].getHand().add(deck.drawCard());
             draw_button.setEnabled(false);
             move_button.setEnabled(true);
+            play_button.setEnabled(true);
         }
     }
 
@@ -235,6 +237,12 @@ public class ControlView {
                 movePlayer(room_moved, players[0].getPlayer());
                 //Moves the AI
                 moveAI();
+            }
+            move_count++;
+            //Ensures that a player can only move up to 3 spaces
+            if(move_count == MAX_MOVE) {
+                move_button.setEnabled(false);
+                move_count = 0;
             }
         }
     }

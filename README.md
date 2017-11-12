@@ -9,25 +9,28 @@ Changes from last push
 - Separated available room list in ControlView into its own method
 - Added popup when a room isn't selected when move is clicked
 - Merged all players and AI into PlayerModel[] array
+
 TO-DO List (Iteration 2)
-- Card Hand function (for player)
-    - Initialize with 5 cards
-- Deck is randomized
+- Player's Hand function 
+    - Display Player's Hand (done)
+    - Initialize with 5 cards 
+- Deck is randomized (Done)
     - Reshuffled when deck runs out
 - Buttons
-    - Draw Card
-        - Move and Play Card button is grayed initially until Draw Card is clicked
-        - Top card of deck is added to hand
-        - Card display first card in hand
-        - Button is grayed after card is drawn, enable Move and Play Card button
-    - Play Card
-        - Plays the card displayed
-        - Disabled after card played
+    - Draw Card (Done)
+        - Move and Play Card button is grayed initially until Draw Card is clicked (Done)
+        - Top card of deck is added to hand (Done)
+        - Card display first card in hand (Done)
+        - Button is grayed after card is drawn, enable Move and Play Card button (Done)
+    - Play Card (Done)
+        - Plays the card displayed (Done)
+        - Change card displayed to the next card in hand 
+        - Disabled after card played (Done)
     - Move Card
         - Disabled after 3 moves
 - Card class
-    - Each card is a child of a parent Card class
-    - Override "play" method in child class
+    - Each card is a child of a parent Card class (Done)
+    - Override "play" method in child class (In progress)
 - Information Panel
     - Dimensions: 2/3 right width, 2/3 top height
     - Displays each player's info
