@@ -26,8 +26,8 @@ TO-DO List (Iteration 2)
         - Plays the card displayed (Done)
         - Change card displayed to the next card in hand 
         - Disabled after card played (Done)
-    - Move Card
-        - Disabled after 3 moves
+    - Move Card (Done)
+        - Disabled after 3 moves (Done)
 - Card class
     - Each card is a child of a parent Card class (Done)
     - Override "play" method in child class (In progress)

@@ -217,7 +217,20 @@ public class ControlView {
         return room_list_scroller;
     }
 
+    //Changes the card displayed of a player's hand
+    public void changeCardDisplay() {
+        Card next_card = (Card) players[0].getHand().get(current_card_index);
+        player_hand.setIcon(next_card.getCardImage());
+        if (current_card_index < players[0].getHand().size() - 1) {
+            current_card_index++;
+        } else {
+            //resets the current card to the beginning of the hand once it reaches the end
+            current_card_index = 0;
+        }
+    }
+
     //Handles Draw Card actions
+    //Adds card from deck to the end of a player's hand
     class HandleDrawCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             players[0].getHand().add(deck.drawCard());
@@ -251,35 +264,28 @@ public class ControlView {
     class HandlePlayCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             current_card.play();
+            //Discard Card and update the player's hand (Currently does not update visually dynamically)
             deck.discard(current_card);
-            //players[0].getHand().remove(0);
+            players[0].getHand().remove(0);
+            changeCardDisplay();
+
+            //Sets the buttons after Play Card is clicked
             play_button.setEnabled(false);
-            //After player, AI's turn
             draw_button.setEnabled(true);
             move_button.setEnabled(false);
+            //After player, AI's turn
         }
     }
 
     //Handles Player's Hand (Currently only works after clicked once)
     class HandlePlayerHand implements MouseListener {
         //Chooses the next Card to display on the panel
-        public void mousePressed(MouseEvent e) {
-            System.out.println("You pressed here");
-        }
-
+        public void mousePressed(MouseEvent e) {}
         public void mouseReleased(MouseEvent e) {}
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
         public void mouseClicked(MouseEvent e) {
-            Card next_card = (Card)players[0].getHand().get(current_card_index);
-            player_hand.setIcon(next_card.getCardImage());
-            if(current_card_index < players[0].getHand().size() - 1) {
-                current_card_index++;
-            }
-            else {
-                //resets the current card to the beginning of the hand once it reaches the end
-                current_card_index = 0; 
-            }
+            changeCardDisplay();
         }
 
     }
