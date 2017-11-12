@@ -7,7 +7,7 @@ import javax.swing.*;
 
 public class ControlView {
     String[] rooms_available;                       //List of adjacent rooms available for a player
-    DefaultListModel room_model;                    //used to dynamically change room list
+    DefaultListModel<String> room_model;                    //used to dynamically change room list
     CardDeckModel deck;
     Card current_card;
     int current_card_index;
@@ -15,7 +15,7 @@ public class ControlView {
     PlayerModel[] players;                          //Current Players
     RoomListModel rlm;    
     JButton draw_button, move_button, play_button;
-    JList room_list;                                //displays the rooms available to move
+    JList<String> room_list;                                //displays the rooms available to move
     JPanel curr_room_panel;                         //current panel the human player is in
     JLabel player_hand;                             //Shows the current card that can be played from hand
     Container game_frame;
@@ -27,7 +27,7 @@ public class ControlView {
         map = map_model;
         game_frame = frame;
         deck = new CardDeckModel();
-        room_model = new DefaultListModel();
+        room_model = new DefaultListModel<String>();
         rlm = new RoomListModel();
         rooms_available = rlm.getRoom(DEF_ROOM).getRoomAdj();
         curr_room_panel = map.getRoomMap().get(DEF_ROOM);
@@ -57,7 +57,6 @@ public class ControlView {
 
     //Returns the game control panel as JPanel
     public JPanel display() {
-
         JPanel control_view = new JPanel();
         control_view.setBorder(BorderFactory.createLineBorder(Color.black, 5));
         control_view.setLayout(new GridBagLayout());
@@ -87,7 +86,6 @@ public class ControlView {
         c.fill = GridBagConstraints.NONE;
         c.gridx = 1;
         c.gridy = 0;
-        c.weightx = 0.1;
         c.gridheight = 2;
         control_view.add(player_hand, c);     
         
@@ -144,7 +142,7 @@ public class ControlView {
     //Updates the room list after every move
     //Returns the room to be moved too
     public String updateRoomList() {
-        String selected_room = (String)room_list.getSelectedValue();
+        String selected_room = room_list.getSelectedValue();
         if(selected_room == null) {
             JOptionPane.showMessageDialog(game_frame,
             "Please select a room.",
@@ -208,7 +206,7 @@ public class ControlView {
         for(int i = 0; i < rooms_available.length; i++) {
             room_model.addElement(rooms_available[i]);
         }
-        room_list = new JList(room_model);
+        room_list = new JList<String>(room_model);
         room_list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         room_list.setLayoutOrientation(JList.VERTICAL);
         room_list.setVisibleRowCount(8);
@@ -249,6 +247,10 @@ public class ControlView {
             deck.discard(current_card);
             //players[0].getHand().remove(0);
             play_button.setEnabled(false);
+            //After player, AI's turn
+            draw_button.setEnabled(true);
+            move_button.setEnabled(false);
+
         }
     }
 
@@ -256,8 +258,6 @@ public class ControlView {
     class HandlePlayerHand implements MouseListener {
         //Chooses the next Card to display on the panel
         public void mousePressed(MouseEvent e) {
-            Card next_card = (Card)players[0].getHand().get(current_card_index++);
-            player_hand.setIcon(next_card.getCardImage());
             System.out.println("You pressed here");
         }
 
@@ -265,6 +265,8 @@ public class ControlView {
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
         public void mouseClicked(MouseEvent e) {
+            Card next_card = (Card)players[0].getHand().get(current_card_index++);
+            player_hand.setIcon(next_card.getCardImage());
             System.out.println("You clicked here");
         }
 
