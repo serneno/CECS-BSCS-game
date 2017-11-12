@@ -216,22 +216,15 @@ public class ControlView {
         return room_list_scroller;
     }
 
-    //Changes the card displayed of a player's hand (not working)
+    //Changes the card displayed of a player's hand 
     public void changeCardDisplay() {
-        if(current_card_index == 0) {
-            current_card = (Card) players[0].getHand().get(current_card_index + 1);
-        }
-        else {
-            current_card = (Card) players[0].getHand().get(current_card_index);
-        }
-        player_hand.setIcon(current_card.getCardImage());
-
         if (current_card_index < players[0].getHand().size() - 1) {
             current_card_index++;
-        }
-        else {
+        } else {
             current_card_index = 0;
         }
+        current_card = players[0].getHand().get(current_card_index);
+        player_hand.setIcon(current_card.getCardImage());
     }
 
     //Handles Draw Card actions
