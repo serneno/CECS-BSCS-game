@@ -48,7 +48,7 @@ public class ControlView {
         //Play Card Button (currently disabled)
         play_button = new JButton("Play Card");
         play_button.addActionListener(new HandlePlayCard());
-        //play_button.setEnabled(false);
+        play_button.setEnabled(false);
 
         //Player Hand
         player_hand = new JLabel();
