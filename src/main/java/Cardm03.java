@@ -12,10 +12,10 @@ public class Cardm03 extends Card {
     }
 
     //If player in Library, get 1 Learning Chip
-    public void play(PlayerModel player) {
+    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if (player.getCurrentRoom().getName().equals("Library")) {
             player.addLearning(1);
-            System.out.println(player.getPlayer().getName() + " played " + getName() + "for 1 Learning Chip");
+            System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Learning Chip");
         }
     }
 }

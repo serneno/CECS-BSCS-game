@@ -22,7 +22,7 @@ public class Card extends JLabel {
     }
 
     //Will be overridden by each child Card class
-    public void play(PlayerModel player){
+    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm){
         System.out.println("Card ID:" + getCardID());
     }
 }

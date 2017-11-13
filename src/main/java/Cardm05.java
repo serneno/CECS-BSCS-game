@@ -12,10 +12,10 @@ public class Cardm05 extends Card {
         }
     
         //If player in ECS 308, get 1 Craft Chip
-        public void play(PlayerModel player) {
+        public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
             if(player.getCurrentRoom().getName().equals("ECS 308")) {
                 player.addCraft(1);
-                System.out.println(player.getPlayer().getName() + " played " + getName() + "for 1 Craft Chip");
+                System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Craft Chip");
             }
         }
     }

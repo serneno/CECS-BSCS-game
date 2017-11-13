@@ -12,10 +12,10 @@ public class Cardm06 extends Card {
         }
     
         //If player in Student Recreation, get 1 Integrity Chip
-        public void play(PlayerModel player) {
+        public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
             if(player.getCurrentRoom().getName().equals("Student Recreation")) {
                 player.addIntegrity(1);
-                System.out.println(player.getPlayer().getName() + " played " + getName() + "for 1 Integrity Chip");
+                System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Integrity Chip");
             }
         }
     }

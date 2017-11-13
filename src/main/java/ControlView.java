@@ -125,6 +125,7 @@ public class ControlView {
 
     //Initializes players
     //Will include in the future parameter for number of players and chooses a human player randomly
+    //Will make players[0] be human player for ease of use
     public void player_init() {
         players = new PlayerModel[3];
         players[0] = new PlayerModel("Amanda", true, rlm.getRoom(DEF_ROOM));
@@ -145,9 +146,7 @@ public class ControlView {
     public String updateRoomList() {
         String selected_room = room_list.getSelectedValue();
         if(selected_room == null) {
-            JOptionPane.showMessageDialog(game_frame,
-            "Please select a room.",
-            "",
+            JOptionPane.showMessageDialog(game_frame, "Please select a room.", "",
             JOptionPane.WARNING_MESSAGE);
         }
         else {
@@ -261,7 +260,7 @@ public class ControlView {
     //Handles Play Card actions
     class HandlePlayCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            current_card.play(players[current_card_index]);
+            current_card.play(players[0], deck, rlm);
             //Discard Card and update the player's hand (Currently does not update visually dynamically)
             deck.discard(current_card);
             players[0].getHand().remove(current_card_index);

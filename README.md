@@ -31,6 +31,16 @@ TO-DO List (Iteration 2)
 - Card class
     - Each card is a child of a parent Card class (Done)
     - Override "play" method in child class (In progress)
+    - Cardm09 needs Dialog to choose whether player wants to discard a card for an additional Learning Chip
+    - Cardm12 needs to teleport to Lactation Lounge when success
+    - Cardm13 needs to teleport to Lactation Lounge when success
+    - Cardm16 needs to teleport to Room Of Retirement when fail
+    - Cardm22 needs to teleport to Lactation Lougne when fail
+    - Cardm23 needs Dialog to choose a Chip of Choice
+    - Cardm25 needs Dialog to choose a Chip of Choice
+    - Cardm27 needs Dialog to choose a Chip of Choice
+    - Cardm28 needs Dialog to choose a Chip of Choice
+    - Cardm29 needs to teleport to Student Parking when fail
 - Information Panel
     - Dimensions: 2/3 right width, 2/3 top height
     - Displays each player's info
