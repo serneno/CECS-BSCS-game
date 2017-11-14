@@ -15,6 +15,7 @@ public class Cardm28 extends Card {
     //Else, discard 1 Game Card
     public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("CECS Conference") && player.getIntegrity() >= 3) {
+            chipChoice();
             return player.getPlayer().getText() + " played " + getName() + " for Chip of Choice";
             //player.addCraft(1);
             //return player.getPlayer().getText() + " played " + getName() + " for 1 Craft Chip";

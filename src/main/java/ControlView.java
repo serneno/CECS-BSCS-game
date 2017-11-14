@@ -142,9 +142,12 @@ public class ControlView {
         //Going to give each player 5 cards initially
         for(int i = 0; i < 5; i++) {
             players[0].getHand().add(deck.drawCard());
-            players[1].getHand().add(deck.drawCard());
-            players[2].getHand().add(deck.drawCard());
+            //players[1].getHand().add(deck.drawCard());
+            //players[2].getHand().add(deck.drawCard());
         }
+        players[0].addLearning(5);
+        players[0].addIntegrity(5);
+        players[0].addCraft(5);
     }
 
     //Updates the room list after every move

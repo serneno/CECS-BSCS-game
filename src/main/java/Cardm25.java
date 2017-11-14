@@ -16,6 +16,7 @@ public class Cardm25 extends Card {
     public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("Lactation Lounge") && player.getLearning() >= 2) {
             player.addQuality(5);
+            chipChoice();
             return player.getPlayer().getText() + " played " + getName() + " for 5 Quality Points";
             //player.addCraft(1);
             //return player.getPlayer().getText() + " played " + getName() + " for 5 Quality Points and 1 Craft Chip";
