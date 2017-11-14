@@ -12,17 +12,18 @@ public class Cardm11 extends Card {
     }
 
     //If player in Eat Club or George Allen Field, get 1 Learning Chip or 1 Craft Chip
-    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
+    public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("Eat Club") || player.getCurrentRoom().getName().equals("George Allen Field")) {
             int randomChip = (int) Math.random();
             if(randomChip == 0) {
                 player.addLearning(1);
-                System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Learning Chip");
+                return player.getPlayer().getText() + " played " + getName() + " for 1 Learning Chip";
             }
             else {
                 player.addCraft(1);
-                System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Craft Chip");
+                return player.getPlayer().getText() + " played " + getName() + " for 1 Craft Chip";
             }
         }
+        return player.getPlayer().getText() + " played " + getName() + " for nothing";
     }
 }

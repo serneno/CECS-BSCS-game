@@ -12,8 +12,7 @@ public class Cardm12 extends Card {
     }
 
     //If player is in any space outside that isn't Forbidden Parking, get 1 Craft Chip
-    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
-        //Need to add the other outside spaces
+    public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("George Allen Field") || player.getCurrentRoom().getName().equals("Japanese Garden") ||
         player.getCurrentRoom().getName().equals("Pyramid") || player.getCurrentRoom().getName().equals("Student Parking") ||
         player.getCurrentRoom().getName().equals("REC Center") || player.getCurrentRoom().getName().equals("West Walkway") ||
@@ -21,7 +20,8 @@ public class Cardm12 extends Card {
         player.getCurrentRoom().getName().equals("LA 5") || player.getCurrentRoom().getName().equals("Bratwurst Hall")) {
             player.addCraft(1);
             player.setCurrentRoom(rlm.getRoom("Lactation Lounge"));
-            System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Craft Chip and teleported to Lactation Lounge");
+            return player.getPlayer().getText() + " played " + getName() + " for 1 Craft Chip and teleported to Lactation Lounge";
         }
+        return player.getPlayer().getText() + " played " + getName() + " for nothing";
     }
 }

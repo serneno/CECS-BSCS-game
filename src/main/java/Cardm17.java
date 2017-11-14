@@ -13,14 +13,14 @@ public class Cardm17 extends Card {
 
     //If player in Lactation Lounge and has >= 3 Learning Chips, get 5 Quality Points
     //Else lose 3 Quality Points
-    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
+    public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("Lactation Lounge") && player.getLearning() >= 3) {
             player.addQuality(5);
-            System.out.println(player.getPlayer().getName() + " played " + getName() + " for 5 Quality Points");
+            return player.getPlayer().getText() + " played " + getName() + " for 5 Quality Points";
         }
         else {
             player.addQuality(-3);
-            System.out.println(player.getPlayer().getName() + " played " + getName() + " for -3 Quality Points");
+            return player.getPlayer().getText() + " played " + getName() + " for -3 Quality Points";
         }
     }
 }

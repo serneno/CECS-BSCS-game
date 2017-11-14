@@ -12,10 +12,11 @@ public class Cardm00 extends Card {
     }
 
     //If player in ECS 302 or ECS 308, get 1 Learning Chip
-    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
+    public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("ECS 302") || player.getCurrentRoom().getName().equals("ECS 308")) {
             player.addLearning(1);
-            System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Learning Chip");
+            return player.getPlayer().getText() + " played " + getName() + " for 1 Learning Chip";
         }
+        return player.getPlayer().getText() + " played " + getName() + " for nothing";
     }
 }

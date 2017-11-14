@@ -12,17 +12,18 @@ public class Cardm01 extends Card {
     }
 
     //If player in Library, get 1 Learning Chip or 1 Integrity Chip
-    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
+    public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if (player.getCurrentRoom().getName().equals("Library")) {
             int randomChip = (int)Math.random();
             if(randomChip == 0) {
                 player.addLearning(1);
-                System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Learning Chip");
+                return player.getPlayer().getText() + " played " + getName() + " for 1 Learning Chip";
             }
             else {
                 player.addIntegrity(1);
-                System.out.println(player.getPlayer().getName() + " played " + getName() + " for 1 Integrity Chip");
+                return player.getPlayer().getText() + " played " + getName() + " for 1 Integrity Chip";
             }
         }
+        return player.getPlayer().getText() + " played " + getName() + " for nothing";
     }
 }

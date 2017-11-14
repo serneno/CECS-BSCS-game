@@ -13,15 +13,15 @@ public class Cardm19 extends Card {
 
     //If player in George Allen Field and >= 3 Craft Chips, get 5 Quality Points and 1 Integrity Chip
     //Else, teleport to Student Parking
-    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
+    public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("George Allen Field") && player.getCraft() >= 3) {
             player.addQuality(5);
             player.addIntegrity(1);
-            System.out.println(player.getPlayer().getName() + " played " + getName() + " for 5 Quality Points and 1 Integrity Chip");
+            return player.getPlayer().getText() + " played " + getName() + " for 5 Quality Points and 1 Integrity Chip";
         }
         else {
             player.setCurrentRoom(rlm.getRoom("Student Parking"));
-            System.out.println(player.getPlayer().getName() + " played " + getName() + " teleported to Student Parking");
+            return player.getPlayer().getText() + " played " + getName() + " teleported to Student Parking";
         }
     }
 }

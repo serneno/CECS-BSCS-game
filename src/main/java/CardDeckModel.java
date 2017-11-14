@@ -35,6 +35,25 @@ public class CardDeckModel {
         card_list.put("Cardm08", new Cardm08());
         card_list.put("Cardm09", new Cardm09());
         card_list.put("Cardm10", new Cardm10());
+        card_list.put("Cardm11", new Cardm11());
+        card_list.put("Cardm12", new Cardm12());
+        card_list.put("Cardm13", new Cardm13());
+        card_list.put("Cardm14", new Cardm14());
+        card_list.put("Cardm15", new Cardm15());
+        card_list.put("Cardm16", new Cardm16());
+        card_list.put("Cardm17", new Cardm17());
+        card_list.put("Cardm18", new Cardm18());
+        card_list.put("Cardm19", new Cardm19());
+        card_list.put("Cardm20", new Cardm20());
+        card_list.put("Cardm21", new Cardm21());
+        card_list.put("Cardm22", new Cardm22());
+        card_list.put("Cardm23", new Cardm23());
+        card_list.put("Cardm24", new Cardm24());
+        card_list.put("Cardm25", new Cardm25());
+        card_list.put("Cardm26", new Cardm26());
+        card_list.put("Cardm27", new Cardm27());
+        card_list.put("Cardm28", new Cardm28());
+        card_list.put("Cardm29", new Cardm29());
         card_names = new ArrayList<String>(card_list.keySet());
     }
 
@@ -50,7 +69,7 @@ public class CardDeckModel {
     }
 
     //Returns number of cards left in the deck
-    public int cardsLeft() {
+    public int getSize() {
         return deck.size();
     }
 
@@ -62,5 +81,9 @@ public class CardDeckModel {
     //Discards a card
     public void discard(Card dCard) {
         discard.add(dCard);
+    }
+
+    public int getDiscard() {
+        return discard.size();
     }
 }

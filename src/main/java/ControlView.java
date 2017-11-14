@@ -18,6 +18,8 @@ public class ControlView {
     JList<String> room_list;                        //displays the rooms available to move
     JPanel curr_room_panel;                         //current panel the human player is in
     JLabel player_hand;                             //Shows the current card that can be played from hand
+    JTextArea current_stats, current_play;
+    String result_log;                              //Stores current result of each turn
     Container game_frame;
       
     final static int MAX_MOVE = 3;                  //maximum number of moves
@@ -54,6 +56,9 @@ public class ControlView {
         player_hand.addMouseListener(new HandlePlayerHand());
         current_card = players[0].getHand().get(0); //first card to be displayed
         current_card_index = 0; 
+
+        current_stats = new JTextArea();
+        updateInfoPanel();
     }
 
     //Returns the game control panel as JPanel
@@ -90,18 +95,7 @@ public class ControlView {
         c.gridheight = 2;
         control_view.add(player_hand, c);     
         
-        //For future iteration
-        
-        //Displays current statistics of the players (currently doesn't work as not needed for first iteration)
-        JTextArea current_stats = new JTextArea(
-            "\tLearning\tCraft\tIntegrity\tQuality Points\n" + 
-            players[0].getPlayer().getText() + "\t6\t6\t6\t0\n" + 
-            players[1].getPlayer().getText() + "\t6\t6\t6\t0\n" +
-            players[2].getPlayer().getText() + "\t6\t6\t6\t0\n\n" +
-            "Cards in deck:\t" + deck.cardsLeft() +
-            "\tDiscards out of play: \t0\n" +
-            "You are " + players[0].getPlayer().getText() +" and you are in the " + players[0].getCurrentRoom().getName() 
-        );
+        //Displays current statistics of the players
         current_stats.setEditable(false);
         current_stats.setBorder(BorderFactory.createLineBorder(Color.black));
         c.fill = GridBagConstraints.BOTH;
@@ -113,7 +107,7 @@ public class ControlView {
         c.weightx = 0.8;
         control_view.add(current_stats, c);
 
-        JTextArea current_play = new JTextArea("Human player is " + players[0].getPlayer().getText());
+        current_play = new JTextArea("Human player is " + players[0].getPlayer().getText());
         current_play.setBorder(BorderFactory.createLineBorder(Color.black)); 
         current_play.setEditable(false);
         JScrollPane current_play_scroll = new JScrollPane(current_play);
@@ -123,6 +117,16 @@ public class ControlView {
         return control_view;
     }
 
+    public void updateInfoPanel() {
+        current_stats.setText("\tLearning\tCraft\tIntegrity\tQuality Points\n"
+                + players[0].getPlayer().getText() + "\t" + players[0].getLearning() + "\t" + players[0].getCraft() + "\t" + players[0].getIntegrity() + "\t" + players[0].getQuality() + "\n"
+                + players[1].getPlayer().getText() + "\t" + players[1].getLearning() + "\t" + players[1].getCraft() + "\t" + players[1].getIntegrity() + "\t" + players[1].getQuality() + "\n"
+                + players[2].getPlayer().getText() + "\t" + players[2].getLearning() + "\t" + players[2].getCraft() + "\t" + players[2].getIntegrity() + "\t" + players[2].getQuality() + "\n"
+                + "Cards in deck:\t" + deck.getSize()
+                + "\tDiscards out of play: " + deck.getDiscard() + "\n"
+                + "You are " + players[0].getPlayer().getText() + " and you are in " + players[0].getCurrentRoom().getName());
+
+    }    
     //Initializes players
     //Will include in the future parameter for number of players and chooses a human player randomly
     //Will make players[0] be human player for ease of use
@@ -135,9 +139,11 @@ public class ControlView {
         for(int i = 0; i < players.length; i++) {
             curr_room_panel.add(players[i].getPlayer());
         }
-        //Going to give each player 5 cards initially (currently testing with few)
+        //Going to give each player 5 cards initially
         for(int i = 0; i < 5; i++) {
             players[0].getHand().add(deck.drawCard());
+            players[1].getHand().add(deck.drawCard());
+            players[2].getHand().add(deck.drawCard());
         }
     }
 
@@ -174,6 +180,7 @@ public class ControlView {
         curr_room_panel.add(p1);
         curr_room_panel.repaint();
         curr_room_panel.validate();
+        players[0].setCurrentRoom(rlm.getRoom(room));
     }
 
     //Moves the AI players
@@ -226,6 +233,16 @@ public class ControlView {
         player_hand.setIcon(current_card.getCardImage());
     }
 
+    //Will be used for AI's turn
+    public void AITurn() {
+        for(PlayerModel player : players) {
+            if(!player.isHuman()) {
+                player.getHand().add(deck.drawCard());
+            }
+        }
+        moveAI();
+    }
+
     //Handles Draw Card actions
     //Adds card from deck to the end of a player's hand
     class HandleDrawCard implements ActionListener {
@@ -234,6 +251,7 @@ public class ControlView {
             draw_button.setEnabled(false);
             move_button.setEnabled(true);
             play_button.setEnabled(true);
+            updateInfoPanel();
         }
     }
 
@@ -245,8 +263,7 @@ public class ControlView {
             String room_moved = updateRoomList();
             if(!room_moved.equals("")) {
                 movePlayer(room_moved, players[0].getPlayer());
-                //Moves the AI
-                moveAI();
+                updateInfoPanel();
             }
             move_count++;
             //Ensures that a player can only move up to 3 spaces
@@ -260,17 +277,22 @@ public class ControlView {
     //Handles Play Card actions
     class HandlePlayCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            current_card.play(players[0], deck, rlm);
+            result_log = current_card.play(players[0], deck, rlm);
             //Discard Card and update the player's hand (Currently does not update visually dynamically)
             deck.discard(current_card);
             players[0].getHand().remove(current_card_index);
             changeCardDisplay();
-
+            //Updates the players location if player was moved
+            movePlayer(players[0].getCurrentRoom().getName(), players[0].getPlayer());
             //Sets the buttons after Play Card is clicked
             play_button.setEnabled(false);
             draw_button.setEnabled(true);
             move_button.setEnabled(false);
+
+            updateInfoPanel();
+            current_play.append("\n" + result_log);
             //After player, AI's turn
+            AITurn();
         }
     }
 

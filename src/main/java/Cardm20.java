@@ -13,14 +13,14 @@ public class Cardm20 extends Card {
 
     //If player in North Hall and >= 6 Learning Chips, get 5 Quality Points
     //Else, teleport to Student Parking
-    public void play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
+    public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if((player.getCurrentRoom().getName().equals("North Hall") || player.getCurrentRoom().getName().equals("South Hall")) && player.getLearning() >= 6) {
             player.addQuality(5);
-            System.out.println(player.getPlayer().getName() + " played " + getName() + " for 5 Quality Points");
+            return player.getPlayer().getText() + " played " + getName() + " for 5 Quality Points";
         }
         else {
             player.setCurrentRoom(rlm.getRoom("Student Parking"));
-            System.out.println(player.getPlayer().getName() + " played " + getName() + " and teleported to Student Parking");
+            return player.getPlayer().getText() + " played " + getName() + " and teleported to Student Parking";
         }
     }
 }
