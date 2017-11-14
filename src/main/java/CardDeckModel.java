@@ -54,6 +54,16 @@ public class CardDeckModel {
         card_list.put("Cardm27", new Cardm27());
         card_list.put("Cardm28", new Cardm28());
         card_list.put("Cardm29", new Cardm29());
+        card_list.put("Cardm30", new Cardm30());
+        card_list.put("Cardm31", new Cardm31());
+        card_list.put("Cardm32", new Cardm32());
+        card_list.put("Cardm33", new Cardm33());
+        card_list.put("Cardm34", new Cardm34());
+        card_list.put("Cardm35", new Cardm35());
+        card_list.put("Cardm36", new Cardm36());
+        card_list.put("Cardm37", new Cardm37());
+        card_list.put("Cardm38", new Cardm38());
+        card_list.put("Cardm39", new Cardm39());
         card_names = new ArrayList<String>(card_list.keySet());
     }
 

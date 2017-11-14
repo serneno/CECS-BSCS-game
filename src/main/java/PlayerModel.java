@@ -15,6 +15,7 @@ public class PlayerModel {
     int integrity_chip; //number of Integrity Chips
     int learning_chip;  //Number of Learning Chips
     int quality_points; //Number of Quality Points
+    boolean chip_choose;
 
     public PlayerModel(String name, boolean isHuman, Room default_room) {
         player = new JLabel(name);
@@ -26,6 +27,7 @@ public class PlayerModel {
         learning_chip = 0;
         quality_points = 0;
         player.setForeground(Color.red);    //Current Default Color
+        chip_choose = false;
     }
 
     public void addCraft(int count) {
@@ -42,8 +44,15 @@ public class PlayerModel {
 
     public void addQuality(int count) {
         quality_points += count;
+        //Prevents negative quality points
+        if(quality_points < 0) {
+            quality_points = 0;
+        }
     }
 
+    public boolean getChoose() {
+        return chip_choose;
+    }
     //Returns the player as a JLabel for movement on game board
     public JLabel getPlayer() {
         return player;
@@ -88,5 +97,9 @@ public class PlayerModel {
     //Sets the current room
     public void setCurrentRoom(Room new_room) {
         current_room = new_room;
+    }
+
+    public void setChoose(boolean b) {
+        chip_choose = b;
     }
 }

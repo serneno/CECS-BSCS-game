@@ -16,7 +16,7 @@ public class Cardm23 extends Card {
     public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("Computer Lab") && player.getIntegrity() >= 4) {
             player.addQuality(3);
-            chipChoice();
+            player.setChoose(true);
             return player.getPlayer().getText() + " played " + getName() + " for 3 Quality Points";
 
             //player.addCraft(1);

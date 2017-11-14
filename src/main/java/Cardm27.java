@@ -15,7 +15,7 @@ public class Cardm27 extends Card {
     //Else, lose 2 Quality Points
     public String play(PlayerModel player, CardDeckModel deck, RoomListModel rlm) {
         if(player.getCurrentRoom().getName().equals("Eat Room") && player.getCraft() >= 3) {
-            chipChoice();
+            player.setChoose(true);
             return player.getPlayer().getText() + " played " + getName() + " for Chip of Choice";            
             //player.addCraft(1);
             //return player.getPlayer().getText() + " played " + getName() + "for 1 Craft Chip";

@@ -21,6 +21,8 @@ public class ControlView {
     JTextArea current_stats, current_play;
     String result_log;                              //Stores current result of each turn
     Container game_frame;
+    JDialog chip_choice;//Choosing Chip
+    String chip; //Name of chip chosen
       
     final static int MAX_MOVE = 3;                  //maximum number of moves
     final static String DEF_ROOM = "ECS 308";
@@ -59,6 +61,7 @@ public class ControlView {
 
         current_stats = new JTextArea();
         updateInfoPanel();
+        chip_choice = new JDialog();
     }
 
     //Returns the game control panel as JPanel
@@ -104,13 +107,14 @@ public class ControlView {
         c.gridheight = 1;
         c.ipadx = c.ipady = 20;
         c.insets = new Insets(10, 10, 10, 10);
-        c.weightx = 0.8;
+        c.weightx = 0.67;
         control_view.add(current_stats, c);
 
         current_play = new JTextArea("Human player is " + players[0].getPlayer().getText());
         current_play.setBorder(BorderFactory.createLineBorder(Color.black)); 
         current_play.setEditable(false);
-        JScrollPane current_play_scroll = new JScrollPane(current_play);
+        //JScrollPane current_play_scroll = new JScrollPane(current_play);
+        c.weightx = 0.33;
         c.gridy = 1;
 
         control_view.add(current_play, c);    
@@ -142,19 +146,22 @@ public class ControlView {
         //Going to give each player 5 cards initially
         for(int i = 0; i < 5; i++) {
             players[0].getHand().add(deck.drawCard());
-            //players[1].getHand().add(deck.drawCard());
-            //players[2].getHand().add(deck.drawCard());
+            players[1].getHand().add(deck.drawCard());
+            players[2].getHand().add(deck.drawCard());
         }
-        players[0].addLearning(5);
-        players[0].addIntegrity(5);
-        players[0].addCraft(5);
+        //players[0].addIntegrity(10);
+        //players[0].addCraft(10);
+        //players[0].addLearning(10);
     }
 
     //Updates the room list after every move
     //Returns the room to be moved too
-    public String updateRoomList() {
+    public String updateRoomList(Boolean cardTeleport) {
         String selected_room = room_list.getSelectedValue();
-        if(selected_room == null) {
+        if(cardTeleport) {
+            selected_room = players[0].getCurrentRoom().getName();
+        }
+        if(selected_room == null && !cardTeleport) {
             JOptionPane.showMessageDialog(game_frame, "Please select a room.", "",
             JOptionPane.WARNING_MESSAGE);
         }
@@ -172,41 +179,37 @@ public class ControlView {
     }
 
     //Moves the Human player
-    public void movePlayer(String room, JLabel p1) {
+    public void movePlayer(String room, PlayerModel player) {
         //removes human player from board, currently in p1
-        curr_room_panel.remove(p1); 
+        curr_room_panel.remove(player.getPlayer()); 
         curr_room_panel.repaint();
         curr_room_panel.validate();
 
         //adds human player into the room indicated by the room parameter
         curr_room_panel = map.getRoomMap().get(room);
-        curr_room_panel.add(p1);
+        curr_room_panel.add(player.getPlayer());
         curr_room_panel.repaint();
         curr_room_panel.validate();
-        players[0].setCurrentRoom(rlm.getRoom(room));
+        player.setCurrentRoom(rlm.getRoom(room));
     }
 
     //Moves the AI players
-    public void moveAI() {   
-        for(PlayerModel p : players) {
-            if(!p.isHuman()) {
-                String curr_room = p.getCurrentRoom().getName();
-                String[] room_adj = rlm.getRoom(curr_room).getRoomAdj();
-                int room_adj_length = room_adj.length;
-                int new_room_ind = (int) (Math.random() * room_adj_length);
-                String new_room = room_adj[new_room_ind];
-                p.setCurrentRoom(rlm.getRoom(new_room));
-                Container ai_curr_room = p.getPlayer().getParent();
-                ai_curr_room.remove(p.getPlayer());
-                ai_curr_room.repaint();
-                ai_curr_room.validate();
-                //Adds the AI player into the new room
-                ai_curr_room = map.getRoomMap().get(new_room);
-                ai_curr_room.add(p.getPlayer());
-                ai_curr_room.repaint();
-                ai_curr_room.validate();
-            }
-        }
+    public void moveAI(PlayerModel p) {   
+        String curr_room = p.getCurrentRoom().getName();
+        String[] room_adj = rlm.getRoom(curr_room).getRoomAdj();
+        int room_adj_length = room_adj.length;
+        int new_room_ind = (int) (Math.random() * room_adj_length);
+        String new_room = room_adj[new_room_ind];
+        p.setCurrentRoom(rlm.getRoom(new_room));
+        Container ai_curr_room = p.getPlayer().getParent();
+        ai_curr_room.remove(p.getPlayer());
+        ai_curr_room.repaint();
+        ai_curr_room.validate();
+        //Adds the AI player into the new room
+        ai_curr_room = map.getRoomMap().get(new_room);
+        ai_curr_room.add(p.getPlayer());
+        ai_curr_room.repaint();
+        ai_curr_room.validate();
     }
 
     //Returns available rooms to move list
@@ -241,9 +244,89 @@ public class ControlView {
         for(PlayerModel player : players) {
             if(!player.isHuman()) {
                 player.getHand().add(deck.drawCard());
+                moveAI(player);
+                //Needs to play a card
+                playCard(player);
             }
         }
-        moveAI();
+    }
+
+    public void playCard(PlayerModel player) {
+        Card card_chosen;
+        int card_index;
+        if(player.isHuman()) {
+            card_chosen = current_card;
+            card_index = current_card_index;
+        }
+        else {
+            card_chosen = player.getHand().get(0);
+            card_index = 0;
+        }
+        result_log = card_chosen.play(player, deck, rlm);
+        //Discard Card and update the player's hand (Currently does not update visually dynamically)
+        deck.discard(card_chosen);
+        player.getHand().remove(card_index);
+        changeCardDisplay();
+        //Updates the players location if player was moved
+        movePlayer(player.getCurrentRoom().getName(), player);
+        if (player.isHuman()) {
+            if(player.getChoose()) {
+                chipChoice();
+                //System.out.println("test");
+                if(chip.equals("Craft")) {
+                    player.addCraft(1);
+                }
+                else if(chip.equals("Integrity")) {
+                    player.addIntegrity(1);
+                }
+                else {
+                    player.addLearning(1);
+                }
+                player.setChoose(false);
+
+            }
+            updateRoomList(true);
+        }
+        else {
+            if(player.getChoose()) {
+                int random_chip = (int) Math.random() * 2;
+                if(random_chip == 0) {
+                    player.addCraft(1);
+                }
+                else if(random_chip == 1) {
+                    player.addIntegrity(1);
+                }
+                else {
+                    player.addLearning(1);
+                }
+                player.setChoose(false);
+            }
+        }
+        updateInfoPanel();
+        current_play.append("\n" + result_log);
+        current_play.setCaretPosition(current_play.getDocument().getLength());
+    }
+
+    public void chipChoice() {
+        //chip_choice.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        JPanel chipButtons = new JPanel(new GridLayout(1, 3));
+        JButton craftButton = new JButton(new ImageIcon("./resources/CraftChip.png"));
+        craftButton.setName("Craft");
+        craftButton.addActionListener(new HandleChipChoice());
+        JButton integrityButton = new JButton(new ImageIcon("./resources/IntegrityChip.png"));
+        integrityButton.setName("Integrity");
+        integrityButton.addActionListener(new HandleChipChoice());
+        JButton learningButton = new JButton(new ImageIcon("./resources/learningChip.png"));
+        learningButton.setName("Learning");
+        learningButton.addActionListener(new HandleChipChoice());
+        chipButtons.add(craftButton);
+        chipButtons.add(integrityButton);
+        chipButtons.add(learningButton);
+        //chip_choice.add(chipButtons);
+        chip_choice.setContentPane(chipButtons);
+        chip_choice.pack();
+        chip_choice.setLocationByPlatform(true);
+        chip_choice.setVisible(true);
     }
 
     //Handles Draw Card actions
@@ -263,16 +346,15 @@ public class ControlView {
         public void actionPerformed(ActionEvent e) {
             //Updates the room list after a move
             //Moves the player on the game board visually
-            String room_moved = updateRoomList();
+            String room_moved = updateRoomList(false);
             if(!room_moved.equals("")) {
-                movePlayer(room_moved, players[0].getPlayer());
+                movePlayer(room_moved, players[0]);
                 updateInfoPanel();
             }
             move_count++;
             //Ensures that a player can only move up to 3 spaces
             if(move_count == MAX_MOVE) {
                 move_button.setEnabled(false);
-                move_count = 0;
             }
         }
     }
@@ -280,20 +362,13 @@ public class ControlView {
     //Handles Play Card actions
     class HandlePlayCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            result_log = current_card.play(players[0], deck, rlm);
-            //Discard Card and update the player's hand (Currently does not update visually dynamically)
-            deck.discard(current_card);
-            players[0].getHand().remove(current_card_index);
-            changeCardDisplay();
-            //Updates the players location if player was moved
-            movePlayer(players[0].getCurrentRoom().getName(), players[0].getPlayer());
+            playCard(players[0]);
+            move_count = 0;
             //Sets the buttons after Play Card is clicked
             play_button.setEnabled(false);
             draw_button.setEnabled(true);
             move_button.setEnabled(false);
-
-            updateInfoPanel();
-            current_play.append("\n" + result_log);
+            
             //After player, AI's turn
             AITurn();
         }
@@ -310,5 +385,21 @@ public class ControlView {
             changeCardDisplay();
         }
 
+    }
+
+    class HandleChipChoice implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JButton clicked = (JButton) e.getSource();
+            if (clicked.getName().equals("Craft")) {
+                chip = "Craft";
+            } else if (clicked.getName().equals("Integrity")) {
+                chip = "Integrity";
+            } else {
+                chip = "Learning";
+            }
+            chip_choice.dispose();
+            chip_choice.setVisible(false);
+            System.out.println("Chip chosen: " + chip);
+        }
     }
 }
